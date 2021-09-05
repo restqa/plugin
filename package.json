@@ -1,0 +1,29 @@
+{
+  "name": "@restqa/plugin",
+  "version": "0.0.1",
+  "description": "Helpers to create RestQA plugins",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "format": "prettier --check index.js index.test.js",
+    "format:fix": "prettier --write index.js index.test.js",
+    "lint": "eslint index.js index.test.js",
+    "lint:fix": "eslint --fix index.js index.test.js",
+    "check": "npm run format && npm run lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cucumber/cucumber": "^7.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-jest": "^24.4.0",
+    "jest": "^27.1.0",
+    "prettier": "^2.3.2"
+  }
+}
