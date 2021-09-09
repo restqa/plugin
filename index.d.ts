@@ -16,7 +16,7 @@ import {
 } from "@cucumber/cucumber/lib/types"
 
 // This represents the JavaScript class which would be available at runtime
-export default class PluginFactory {
+export default class PluginFactory<Config> {
   constructor(options: PluginFactory.Options);
 
   /**
@@ -52,7 +52,17 @@ export default class PluginFactory {
   /**
    * add a state property
    */
+   addBeforeAllHook: AddHookFunc;
+
+  /**
+   * add a state property
+   */
   addAfterHook: AddHookFunc;
+
+  /**
+   * add a state property
+   */
+   addAfterAllHook: AddHookFunc;
 
   /**
    * Will make all steps available in RestQA
@@ -62,6 +72,11 @@ export default class PluginFactory {
     cucumberInstance: PluginFactory.Cucumber,
     config: Record<string, any>
   ): PluginFactory.ExportObject;
+
+  /**
+   * Return the config
+   */
+  getConfig(): Config
 }
 
 declare namespace PluginFactory {
