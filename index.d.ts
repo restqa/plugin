@@ -118,7 +118,9 @@ declare namespace PluginFactory {
     };
     hooks: {
       before: Hook[];
+      beforeAll: Hook[];
       after: Hook[];
+      afterAll: Hook[];
     };
   }
 
@@ -129,13 +131,13 @@ declare namespace PluginFactory {
     Before: Before;
     BeforeAll: BeforeAll;
     BeforeStep: BeforeStep;
-    defineParameterType: defineParameterType;
-    defineStep: defineStep;
+    defineParameterType?: defineParameterType;
+    defineStep?: defineStep;
     Given: Given;
-    setDefaultTimeout: setDefaultTimeout;
-    setDefinitionFunctionWrapper: setDefinitionFunctionWrapper;
-    setWorldConstructor: setWorldConstructor;
     Then: Then;
     When: When;
+    setDefaultTimeout?: setDefaultTimeout;
+    setDefinitionFunctionWrapper?: setDefinitionFunctionWrapper;
+    setWorldConstructor: setWorldConstructor;
   }
 }
