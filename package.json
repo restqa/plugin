@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Helpers to create RestQA plugins",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watchAll",
