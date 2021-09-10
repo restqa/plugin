@@ -154,4 +154,37 @@ describe("PluginFactory", () => {
       );
     });
   });
+
+  describe("global", () => {
+    it("add hooks methods should be chained", () => {
+      const pf = new PluginFactory({name: "my-plugin"});
+
+      pf.addAfterHook(() => {}).addAfterAllHook(() => {});
+
+      expect(pf._afterAllHooks).toHaveLength(1);
+      expect(pf._afterHooks).toHaveLength(1);
+
+      pf.addBeforeHook(() => {}).addBeforeAllHook(() => {});
+
+      expect(pf._beforeAllHooks).toHaveLength(1);
+      expect(pf._beforeHooks).toHaveLength(1);
+    });
+
+    it("add steps methods should be chained", () => {
+      const pf = new PluginFactory({name: "my-plugin"});
+      const fakeStep = ["yo", () => {}, "the description"];
+
+      pf.addGivenStep(fakeStep).addGivenStep(fakeStep);
+
+      expect(pf._givenSteps).toHaveLength(2);
+
+      pf.addThenStep(fakeStep).addThenStep(fakeStep);
+
+      expect(pf._thenSteps).toHaveLength(2);
+
+      pf.addWhenStep(fakeStep).addWhenStep(fakeStep);
+
+      expect(pf._whenSteps).toHaveLength(2);
+    });
+  });
 });

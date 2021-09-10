@@ -35,43 +35,70 @@ module.exports = class PluginFactory {
       description,
       formattedTags
     ]);
+
+    return this;
   }
 
   addWhenStep(stepDefinition, handler, description, tags) {
     const formattedTags = this._formatTagsAndAddName(tags);
 
     this._whenSteps.push([stepDefinition, handler, description, formattedTags]);
+
+    return this;
   }
 
   addThenStep(stepDefinition, handler, description, tags) {
     const formattedTags = this._formatTagsAndAddName(tags);
 
     this._thenSteps.push([stepDefinition, handler, description, formattedTags]);
+
+    return this;
   }
 
   addBeforeHook(hookFunction) {
     this._checkHookFunction(hookFunction, "addBeforeHook");
 
     this._beforeHooks.push(hookFunction);
+
+    return this;
   }
 
   addAfterHook(hookFunction) {
     this._checkHookFunction(hookFunction, "addAfterHook");
 
     this._afterHooks.push(hookFunction);
+
+    return this;
   }
 
   addBeforeAllHook(hookFunction) {
     this._checkHookFunction(hookFunction, "addBeforeAllHook");
 
     this._beforeAllHooks.push(hookFunction);
+
+    return this;
   }
 
   addAfterAllHook(hookFunction) {
     this._checkHookFunction(hookFunction, "addAfterAllHook");
 
     this._afterAllHooks.push(hookFunction);
+
+    return this;
   }
+
+  // getConfig() {
+  //   return this._config;
+  // }
+
+  /**
+   *
+   * FOR RESTQA CORE ONLY
+   */
+  // _apply(cucumber, config) {
+  //   this._config = config;
+
+  // }
 
   /**
    * UTILS
