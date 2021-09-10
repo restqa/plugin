@@ -20,6 +20,9 @@ module.exports = class PluginFactory {
     this._afterHooks = [];
     this._beforeAllHooks = [];
     this._afterAllHooks = [];
+
+    // state
+    this._state = {};
   }
 
   get name() {
@@ -83,6 +86,20 @@ module.exports = class PluginFactory {
     this._checkHookFunction(hookFunction, "addAfterAllHook");
 
     this._afterAllHooks.push(hookFunction);
+
+    return this;
+  }
+
+  addState(key, value) {
+    if (typeof key !== "string") {
+      throw new TypeError(
+        `addState key parameter should be string, instead got ${typeof key}`
+      );
+    } else if (key.length < 1) {
+      throw new Error("addState key parameter should not be an empty string");
+    }
+
+    this._state[key] = value;
 
     return this;
   }

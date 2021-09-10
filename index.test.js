@@ -155,6 +155,56 @@ describe("PluginFactory", () => {
     });
   });
 
+  describe("adding state", () => {
+    it("should expose an addState method to add a state property", () => {
+      const pf = new PluginFactory({name: "state-plugin"});
+      const property = "restqa";
+      const value = {foo: "bar"};
+
+      pf.addState(property, value);
+
+      expect(pf._state).toEqual({[property]: value});
+    });
+
+    it("addState should throw if key is not a string", () => {
+      const pf = new PluginFactory({name: "plugin"});
+
+      const numberKey = 3;
+      expect(() => pf.addState(numberKey)).toThrow(
+        `addState key parameter should be string, instead got ${typeof numberKey}`
+      );
+
+      const objectKey = {};
+      expect(() => pf.addState(objectKey)).toThrow(
+        `addState key parameter should be string, instead got ${typeof objectKey}`
+      );
+
+      const arrayKey = [];
+      expect(() => pf.addState(arrayKey)).toThrow(
+        `addState key parameter should be string, instead got ${typeof arrayKey}`
+      );
+
+      const undefinedKey = undefined;
+      expect(() => pf.addState(undefinedKey)).toThrow(
+        `addState key parameter should be string, instead got ${typeof undefinedKey}`
+      );
+
+      const nullKey = undefined;
+      expect(() => pf.addState(nullKey)).toThrow(
+        `addState key parameter should be string, instead got ${typeof nullKey}`
+      );
+    });
+
+    it("addState should throw if key an empty string", () => {
+      const pf = new PluginFactory({name: "plugin"});
+      const emptyString = "";
+
+      expect(() => pf.addState(emptyString)).toThrow(
+        "addState key parameter should not be an empty string"
+      );
+    });
+  });
+
   describe("global", () => {
     it("add hooks methods should be chained", () => {
       const pf = new PluginFactory({name: "my-plugin"});
@@ -185,6 +235,18 @@ describe("PluginFactory", () => {
       pf.addWhenStep(fakeStep).addWhenStep(fakeStep);
 
       expect(pf._whenSteps).toHaveLength(2);
+    });
+
+    it("addState method should be chained", () => {
+      const pf = new PluginFactory({name: "my-plugin"});
+      const state = {
+        foo: "bar",
+        bim: {}
+      };
+
+      pf.addState("foo", state.foo).addState("bim", state.bim);
+
+      expect(pf._state).toEqual(state);
     });
   });
 });
