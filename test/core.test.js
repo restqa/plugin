@@ -249,6 +249,36 @@ describe("core usage", () => {
     });
   });
 
+  describe("set config", () => {
+    it("config could be set with _apply function", () => {
+      const pf = new PluginFactory({name: "tony"});
+      const config = {foo: "bar"};
+
+      pf._apply({}, config);
+
+      expect(pf.getConfig()).toEqual(config);
+    });
+
+    it("should throw an error if config is not an object", () => {
+      const pf = new PluginFactory({name: "tony"});
+
+      const stringConfig = "pool";
+      expect(() => pf._apply({}, stringConfig)).toThrow(
+        `Config should be an object instead got ${typeof stringConfig}`
+      );
+
+      const arrayConfig = [];
+      expect(() => pf._apply({}, arrayConfig)).toThrow(
+        `Config should be an object instead got array`
+      );
+
+      const numberConfig = 3;
+      expect(() => pf._apply({}, numberConfig)).toThrow(
+        `Config should be an object instead got ${typeof numberConfig}`
+      );
+    });
+  });
+
   describe("outputs", () => {
     it("_apply should return an PluginFactory instance", () => {
       const pf = new PluginFactory({name: "instance"});

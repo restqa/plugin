@@ -104,15 +104,15 @@ module.exports = class PluginFactory {
     return this;
   }
 
-  // getConfig() {
-  //   return this._config;
-  // }
+  getConfig() {
+    return this._config;
+  }
 
   /**
    *
    * FOR RESTQA CORE ONLY
    */
-  _apply(cucumber) {
+  _apply(cucumber, config) {
     if (
       cucumber === null ||
       typeof cucumber !== "object" ||
@@ -131,6 +131,18 @@ module.exports = class PluginFactory {
     this._applyHooks("AfterAll", this._afterAllHooks, cucumber.AfterAll);
     this._applyHooks("Before", this._beforeHooks, cucumber.Before);
     this._applyHooks("BeforeAll", this._beforeAllHooks, cucumber.BeforeAll);
+
+    if (config) {
+      if (typeof config === "object" && !Array.isArray(config)) {
+        this._config = config;
+      } else {
+        const wrongType = Array.isArray(config) ? "array" : typeof config;
+
+        throw new TypeError(
+          `Config should be an object instead got ${wrongType}`
+        );
+      }
+    }
 
     return this;
   }
