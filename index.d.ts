@@ -130,7 +130,7 @@ declare namespace PluginFactory {
     AfterStep: AfterStep;
     Before: Before;
     BeforeAll: BeforeAll;
-    BeforeStep: BeforeStep;
+    BeforeStep?: BeforeStep;
     defineParameterType?: defineParameterType;
     defineStep?: defineStep;
     Given: Given;

@@ -273,78 +273,183 @@ describe("PluginFactory", () => {
       expect(Given).not.toHaveBeenCalled();
       expect(When).not.toHaveBeenCalled();
       expect(Then).not.toHaveBeenCalled();
+
+      expect(After).not.toHaveBeenCalled();
+      expect(AfterAll).not.toHaveBeenCalled();
+      expect(Before).not.toHaveBeenCalled();
+      expect(BeforeAll).not.toHaveBeenCalled();
     });
 
-    it("should apply Given from cucumber instance if there are Given steps", () => {
-      const pf = new PluginFactory({name: "plugin"});
-      const Given = jest.fn();
+    describe("apply steps", () => {
+      it("should apply Given from cucumber instance if there are Given steps", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const Given = jest.fn();
 
-      pf.addGivenStep("yo", () => {}, "yo step");
-      pf.addGivenStep("yo", () => {}, "yo step");
+        pf.addGivenStep("yo", () => {}, "yo step");
+        pf.addGivenStep("yo", () => {}, "yo step");
 
-      pf._apply({Given});
+        pf._apply({Given});
 
-      expect(Given).toHaveBeenCalledTimes(2);
+        expect(Given).toHaveBeenCalledTimes(2);
+      });
+
+      it("should throw an error if there Given steps but no Given instance", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const expectedError = new Error(
+          "There are Given steps to bind, cucumber instance should contains Given function"
+        );
+
+        pf.addGivenStep("yo", () => {}, "yo step");
+        pf.addGivenStep("yo", () => {}, "yo step");
+
+        expect(() => pf._apply({})).toThrow(expectedError);
+      });
+
+      it("should apply When from cucumber instance if there are When steps", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const When = jest.fn();
+
+        pf.addWhenStep("yo", () => {}, "yo step");
+        pf.addWhenStep("yo", () => {}, "yo step");
+
+        pf._apply({When});
+
+        expect(When).toHaveBeenCalledTimes(2);
+      });
+
+      it("should throw an error if there When steps but no When instance", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const expectedError = new Error(
+          "There are When steps to bind, cucumber instance should contains When function"
+        );
+
+        pf.addWhenStep("yo", () => {}, "yo step");
+        pf.addWhenStep("yo", () => {}, "yo step");
+
+        expect(() => pf._apply({})).toThrow(expectedError);
+      });
+
+      it("should apply Then from cucumber instance if there are Then steps", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const Then = jest.fn();
+
+        pf.addThenStep("yo", () => {}, "yo step");
+        pf.addThenStep("yo", () => {}, "yo step");
+
+        pf._apply({Then});
+
+        expect(Then).toHaveBeenCalledTimes(2);
+      });
+
+      it("should throw an error if there Then steps but no Then instances", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const expectedError = new Error(
+          "There are Then steps to bind, cucumber instance should contains Then function"
+        );
+
+        pf.addThenStep("yo", () => {}, "yo step");
+        pf.addThenStep("yo", () => {}, "yo step");
+
+        expect(() => pf._apply({})).toThrow(expectedError);
+      });
     });
 
-    it("should throw an error if there a Given step but no Given instance", () => {
-      const pf = new PluginFactory({name: "plugin"});
-      const expectedError = new Error(
-        "There are Given steps to bind, cucumber instance should contains a Given function"
-      );
+    describe("apply hooks", () => {
+      it("should apply After from cucumber instance if there are After hooks", () => {
+        const pf = new PluginFactory({name: "plug"});
+        const After = jest.fn();
 
-      pf.addGivenStep("yo", () => {}, "yo step");
-      pf.addGivenStep("yo", () => {}, "yo step");
+        pf.addAfterHook(() => {});
+        pf.addAfterHook(() => {});
+        pf.addAfterHook(() => {});
 
-      expect(() => pf._apply({})).toThrow(expectedError);
-    });
+        pf._apply({After});
 
-    it("should apply When from cucumber instance if there are When steps", () => {
-      const pf = new PluginFactory({name: "plugin"});
-      const When = jest.fn();
+        expect(After).toHaveBeenCalledTimes(3);
+      });
 
-      pf.addWhenStep("yo", () => {}, "yo step");
-      pf.addWhenStep("yo", () => {}, "yo step");
+      it("should throw an error if there a After hooks but no After instance", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const expectedError = new Error(
+          "There are After hooks to bind, cucumber instance should contains After function"
+        );
 
-      pf._apply({When});
+        pf.addAfterHook(() => {});
 
-      expect(When).toHaveBeenCalledTimes(2);
-    });
+        expect(() => pf._apply({})).toThrow(expectedError);
+      });
 
-    it("should throw an error if there a When step but no When instance", () => {
-      const pf = new PluginFactory({name: "plugin"});
-      const expectedError = new Error(
-        "There are When steps to bind, cucumber instance should contains a When function"
-      );
+      it("should apply AfterAll from cucumber instance if there are AfterAll hooks", () => {
+        const pf = new PluginFactory({name: "plug"});
+        const AfterAll = jest.fn();
 
-      pf.addWhenStep("yo", () => {}, "yo step");
-      pf.addWhenStep("yo", () => {}, "yo step");
+        pf.addAfterAllHook(() => {});
+        pf.addAfterAllHook(() => {});
+        pf.addAfterAllHook(() => {});
 
-      expect(() => pf._apply({})).toThrow(expectedError);
-    });
+        pf._apply({AfterAll});
 
-    it("should apply Then from cucumber instance if there are Then steps", () => {
-      const pf = new PluginFactory({name: "plugin"});
-      const Then = jest.fn();
+        expect(AfterAll).toHaveBeenCalledTimes(3);
+      });
 
-      pf.addThenStep("yo", () => {}, "yo step");
-      pf.addThenStep("yo", () => {}, "yo step");
+      it("should throw an error if there a AfterAll hooks but no AfterAll instance", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const expectedError = new Error(
+          "There are AfterAll hooks to bind, cucumber instance should contains AfterAll function"
+        );
 
-      pf._apply({Then});
+        pf.addAfterAllHook(() => {});
 
-      expect(Then).toHaveBeenCalledTimes(2);
-    });
+        expect(() => pf._apply({})).toThrow(expectedError);
+      });
 
-    it("should throw an error if there a Then step but no Then instances", () => {
-      const pf = new PluginFactory({name: "plugin"});
-      const expectedError = new Error(
-        "There are Then steps to bind, cucumber instance should contains a Then function"
-      );
+      it("should apply Before from cucumber instance if there are Before hooks", () => {
+        const pf = new PluginFactory({name: "plug"});
+        const Before = jest.fn();
 
-      pf.addThenStep("yo", () => {}, "yo step");
-      pf.addThenStep("yo", () => {}, "yo step");
+        pf.addBeforeHook(() => {});
+        pf.addBeforeHook(() => {});
+        pf.addBeforeHook(() => {});
 
-      expect(() => pf._apply({})).toThrow(expectedError);
+        pf._apply({Before});
+
+        expect(Before).toHaveBeenCalledTimes(3);
+      });
+
+      it("should throw an error if there a Before hooks but no Before instance", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const expectedError = new Error(
+          "There are Before hooks to bind, cucumber instance should contains Before function"
+        );
+
+        pf.addBeforeHook(() => {});
+
+        expect(() => pf._apply({})).toThrow(expectedError);
+      });
+
+      it("should apply BeforeAll from cucumber instance if there are BeforeAll hooks", () => {
+        const pf = new PluginFactory({name: "plug"});
+        const BeforeAll = jest.fn();
+
+        pf.addBeforeAllHook(() => {});
+        pf.addBeforeAllHook(() => {});
+        pf.addBeforeAllHook(() => {});
+
+        pf._apply({BeforeAll});
+
+        expect(BeforeAll).toHaveBeenCalledTimes(3);
+      });
+
+      it("should throw an error if there a BeforeAll hooks but no BeforeAll instance", () => {
+        const pf = new PluginFactory({name: "plugin"});
+        const expectedError = new Error(
+          "There are BeforeAll hooks to bind, cucumber instance should contains BeforeAll function"
+        );
+
+        pf.addBeforeAllHook(() => {});
+
+        expect(() => pf._apply({})).toThrow(expectedError);
+      });
     });
   });
 

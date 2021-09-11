@@ -128,6 +128,11 @@ module.exports = class PluginFactory {
     this._applySteps("Given", this._givenSteps, cucumber.Given);
     this._applySteps("When", this._whenSteps, cucumber.When);
     this._applySteps("Then", this._thenSteps, cucumber.Then);
+
+    this._applyHooks("After", this._afterHooks, cucumber.After);
+    this._applyHooks("AfterAll", this._afterAllHooks, cucumber.AfterAll);
+    this._applyHooks("Before", this._beforeHooks, cucumber.Before);
+    this._applyHooks("BeforeAll", this._beforeAllHooks, cucumber.BeforeAll);
   }
 
   /**
@@ -155,7 +160,19 @@ module.exports = class PluginFactory {
         steps.forEach((step) => instanceFunction.apply(this, step));
       } else {
         throw new Error(
-          `There are ${name} steps to bind, cucumber instance should contains a ${name} function`
+          `There are ${name} steps to bind, cucumber instance should contains ${name} function`
+        );
+      }
+    }
+  }
+
+  _applyHooks(name, hooks, instanceFunction) {
+    if (hooks.length) {
+      if (typeof instanceFunction === "function") {
+        hooks.forEach((step) => instanceFunction.apply(this, step));
+      } else {
+        throw new Error(
+          `There are ${name} hooks to bind, cucumber instance should contains ${name} function`
         );
       }
     }
