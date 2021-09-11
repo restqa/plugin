@@ -1,4 +1,3 @@
-const {describe} = require("jest-circus");
 const PluginFactory = require("../index");
 
 describe("core usage", () => {
@@ -247,6 +246,40 @@ describe("core usage", () => {
       pf.addBeforeAllHook(() => {});
 
       expect(() => pf._apply({})).toThrow(expectedError);
+    });
+  });
+
+  describe("outputs", () => {
+    it("_apply should return an PluginFactory instance", () => {
+      const pf = new PluginFactory({name: "instance"});
+
+      const applyReturn = pf._apply({});
+
+      expect(applyReturn instanceof PluginFactory).toBeTruthy();
+    });
+
+    it("_getState should return the current state", () => {
+      const pf = new PluginFactory({name: "instance"});
+
+      const stateProperty = "foo";
+      const stateValue = "bar";
+      pf.addState(stateProperty, stateValue);
+
+      const state = pf._getState();
+
+      expect(state).toEqual({[stateProperty]: stateValue});
+    });
+
+    it("_getState should be called chained to _apply", () => {
+      const pf = new PluginFactory({name: "instance"});
+
+      const stateProperty = "foo";
+      const stateValue = "bar";
+      pf.addState(stateProperty, stateValue);
+
+      const state = pf._apply({})._getState();
+
+      expect(state).toEqual({[stateProperty]: stateValue});
     });
   });
 });

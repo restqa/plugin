@@ -42,25 +42,25 @@ export default class PluginFactory<Config> {
   /**
    * add a state property
    */
-  addState: <T>(key: string, value: T) => void;
+  addState: <T>(key: string, value: T) => PluginFactory;
 
   /**
-   * add a state property
+   * add a Before hook
    */
   addBeforeHook: AddHookFunc;
 
   /**
-   * add a state property
+   * add a BeforeAll hook
    */
    addBeforeAllHook: AddHookFunc;
 
   /**
-   * add a state property
+   * add a After hook
    */
   addAfterHook: AddHookFunc;
 
   /**
-   * add a state property
+   * add a AfterAll hook
    */
    addAfterAllHook: AddHookFunc;
 
@@ -71,7 +71,7 @@ export default class PluginFactory<Config> {
   private _apply(
     cucumberInstance: PluginFactory.Cucumber,
     config: Record<string, any>
-  ): PluginFactory.ExportObject;
+  ): PluginFactory;
 
   /**
    * Return the config
@@ -84,7 +84,7 @@ declare namespace PluginFactory {
     name: string;
   }
 
-  export type AddHookFunc = (...args: any) => void;
+  export type AddHookFunc = (...args: any) => PluginFactory;
 
   export type Definition = string;
   export type HandlerFunc = (...args: any) => void;
@@ -96,7 +96,7 @@ declare namespace PluginFactory {
     handler: HandlerFunc,
     description: Description,
     tags?: Tag
-  ) => void
+  ) => PluginFactory;
 
   export interface Step {
     step: Definition;
@@ -107,37 +107,5 @@ declare namespace PluginFactory {
 
   export type States = Record<string, any>;
 
-  export type Hook = (...args: any[]) => void
-
-  export interface ExportObject {
-    states: States;
-    steps: {
-      given: Step[];
-      when: Step[];
-      then: Step[];
-    };
-    hooks: {
-      before: Hook[];
-      beforeAll: Hook[];
-      after: Hook[];
-      afterAll: Hook[];
-    };
-  }
-
-  export interface Cucumber {
-    After: After;
-    AfterAll: AfterAll;
-    AfterStep: AfterStep;
-    Before: Before;
-    BeforeAll: BeforeAll;
-    BeforeStep?: BeforeStep;
-    defineParameterType?: defineParameterType;
-    defineStep?: defineStep;
-    Given: Given;
-    Then: Then;
-    When: When;
-    setDefaultTimeout?: setDefaultTimeout;
-    setDefinitionFunctionWrapper?: setDefinitionFunctionWrapper;
-    setWorldConstructor: setWorldConstructor;
-  }
+  export type Hook = (...args: any[]) => void;
 }

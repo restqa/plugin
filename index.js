@@ -1,5 +1,3 @@
-const {Given} = require("@cucumber/cucumber");
-
 module.exports = class PluginFactory {
   /**
    *
@@ -133,6 +131,12 @@ module.exports = class PluginFactory {
     this._applyHooks("AfterAll", this._afterAllHooks, cucumber.AfterAll);
     this._applyHooks("Before", this._beforeHooks, cucumber.Before);
     this._applyHooks("BeforeAll", this._beforeAllHooks, cucumber.BeforeAll);
+
+    return this;
+  }
+
+  _getState() {
+    return this._state;
   }
 
   /**
