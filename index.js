@@ -1,3 +1,5 @@
+const {Given} = require("@cucumber/cucumber");
+
 module.exports = class PluginFactory {
   /**
    *
@@ -112,10 +114,21 @@ module.exports = class PluginFactory {
    *
    * FOR RESTQA CORE ONLY
    */
-  // _apply(cucumber, config) {
-  //   this._config = config;
+  _apply(cucumber) {
+    if (
+      cucumber === null ||
+      typeof cucumber !== "object" ||
+      Array.isArray(cucumber)
+    ) {
+      throw new TypeError(
+        `Cucumber instance should be an object but got ${cucumber}`
+      );
+    }
 
-  // }
+    this._applySteps("Given", this._givenSteps, cucumber.Given);
+    this._applySteps("When", this._whenSteps, cucumber.When);
+    this._applySteps("Then", this._thenSteps, cucumber.Then);
+  }
 
   /**
    * UTILS
@@ -133,6 +146,18 @@ module.exports = class PluginFactory {
       return Array.isArray(tags) ? [this.name, ...tags] : [this.name, tags];
     } else {
       return [this.name];
+    }
+  }
+
+  _applySteps(name, steps, instanceFunction) {
+    if (steps.length) {
+      if (typeof instanceFunction === "function") {
+        steps.forEach((step) => instanceFunction.apply(this, step));
+      } else {
+        throw new Error(
+          `There are ${name} steps to bind, cucumber instance should contains a ${name} function`
+        );
+      }
     }
   }
 };

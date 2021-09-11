@@ -205,6 +205,149 @@ describe("PluginFactory", () => {
     });
   });
 
+  describe("apply cucumber instance and set config", () => {
+    it("should throw an error if no cucumber instance is provided, or if it's not an object", () => {
+      const pf = new PluginFactory({name: "plugin"});
+
+      expect(() => pf._apply()).toThrow(
+        new TypeError("Cucumber instance should be an object but got undefined")
+      );
+
+      const nullishCucumber = null;
+      expect(() => pf._apply(nullishCucumber)).toThrow(
+        new TypeError(
+          `Cucumber instance should be an object but got ${nullishCucumber}`
+        )
+      );
+
+      const numberCucumber = 3;
+      expect(() => pf._apply(numberCucumber)).toThrow(
+        new TypeError(
+          `Cucumber instance should be an object but got ${numberCucumber}`
+        )
+      );
+
+      const arrayCucumber = [];
+      expect(() => pf._apply(arrayCucumber)).toThrow(
+        new TypeError(
+          `Cucumber instance should be an object but got ${arrayCucumber}`
+        )
+      );
+
+      const stringCucumber = "str";
+      expect(() => pf._apply(stringCucumber)).toThrow(
+        new TypeError(
+          `Cucumber instance should be an object but got ${stringCucumber}`
+        )
+      );
+    });
+
+    it("should not apply cucumber instance if there are steps, hooks or state", () => {
+      const pf = new PluginFactory({name: "plugin"});
+
+      const After = jest.fn();
+      const AfterAll = jest.fn();
+      const AfterStep = jest.fn();
+      const Before = jest.fn();
+      const BeforeAll = jest.fn();
+      const BeforeStep = jest.fn();
+      const Given = jest.fn();
+      const Then = jest.fn();
+      const When = jest.fn();
+      const setWorldConstructor = jest.fn();
+      const cucumberInstance = {
+        After,
+        AfterAll,
+        AfterStep,
+        Before,
+        BeforeAll,
+        BeforeStep,
+        Given,
+        Then,
+        When,
+        setWorldConstructor
+      };
+
+      pf._apply(cucumberInstance);
+
+      expect(Given).not.toHaveBeenCalled();
+      expect(When).not.toHaveBeenCalled();
+      expect(Then).not.toHaveBeenCalled();
+    });
+
+    it("should apply Given from cucumber instance if there are Given steps", () => {
+      const pf = new PluginFactory({name: "plugin"});
+      const Given = jest.fn();
+
+      pf.addGivenStep("yo", () => {}, "yo step");
+      pf.addGivenStep("yo", () => {}, "yo step");
+
+      pf._apply({Given});
+
+      expect(Given).toHaveBeenCalledTimes(2);
+    });
+
+    it("should throw an error if there a Given step but no Given instance", () => {
+      const pf = new PluginFactory({name: "plugin"});
+      const expectedError = new Error(
+        "There are Given steps to bind, cucumber instance should contains a Given function"
+      );
+
+      pf.addGivenStep("yo", () => {}, "yo step");
+      pf.addGivenStep("yo", () => {}, "yo step");
+
+      expect(() => pf._apply({})).toThrow(expectedError);
+    });
+
+    it("should apply When from cucumber instance if there are When steps", () => {
+      const pf = new PluginFactory({name: "plugin"});
+      const When = jest.fn();
+
+      pf.addWhenStep("yo", () => {}, "yo step");
+      pf.addWhenStep("yo", () => {}, "yo step");
+
+      pf._apply({When});
+
+      expect(When).toHaveBeenCalledTimes(2);
+    });
+
+    it("should throw an error if there a When step but no When instance", () => {
+      const pf = new PluginFactory({name: "plugin"});
+      const expectedError = new Error(
+        "There are When steps to bind, cucumber instance should contains a When function"
+      );
+
+      pf.addWhenStep("yo", () => {}, "yo step");
+      pf.addWhenStep("yo", () => {}, "yo step");
+
+      expect(() => pf._apply({})).toThrow(expectedError);
+    });
+
+    it("should apply Then from cucumber instance if there are Then steps", () => {
+      const pf = new PluginFactory({name: "plugin"});
+      const Then = jest.fn();
+
+      pf.addThenStep("yo", () => {}, "yo step");
+      pf.addThenStep("yo", () => {}, "yo step");
+
+      pf._apply({Then});
+
+      expect(Then).toHaveBeenCalledTimes(2);
+    });
+
+    it("should throw an error if there a Then step but no Then instances", () => {
+      const pf = new PluginFactory({name: "plugin"});
+      const expectedError = new Error(
+        "There are Then steps to bind, cucumber instance should contains a Then function"
+      );
+
+      pf.addThenStep("yo", () => {}, "yo step");
+      pf.addThenStep("yo", () => {}, "yo step");
+
+      expect(() => pf._apply({})).toThrow(expectedError);
+    });
+  });
+
   describe("global", () => {
     it("add hooks methods should be chained", () => {
       const pf = new PluginFactory({name: "my-plugin"});
