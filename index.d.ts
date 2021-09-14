@@ -13,10 +13,10 @@ import {
   setWorldConstructor,
   Then,
   When,
-} from "@cucumber/cucumber/lib/types"
+} from "@cucumber/cucumber"
 
 // This represents the JavaScript class which would be available at runtime
-export default class PluginFactory<Config> {
+export default class PluginFactory<Config = {}> {
   constructor(options: PluginFactory.Options);
 
   /**
@@ -27,42 +27,42 @@ export default class PluginFactory<Config> {
   /**
    * add a Given step
    */
-  addGivenStep: PluginFactory.AddStepFunction;
+  addGivenStep: PluginFactory.AddStepFunction<Config>;
 
   /**
    * add a When step
    */
-  addWhenStep: PluginFactory.AddStepFunction;
+  addWhenStep: PluginFactory.AddStepFunction<Config>;
 
   /**
    * add a Then step
    */
-  addThenStep: PluginFactory.AddStepFunction;
+  addThenStep: PluginFactory.AddStepFunction<Config>;
 
   /**
    * add a state property
    */
-  addState: <T>(key: string, value: T) => PluginFactory;
+  addState: <T>(key: string, value: T) => PluginFactory<Config>;
 
   /**
    * add a Before hook
    */
-  addBeforeHook: AddHookFunc;
+  addBeforeHook: PluginFactory.AddHookFunc<Config>;
 
   /**
    * add a BeforeAll hook
    */
-   addBeforeAllHook: AddHookFunc;
+   addBeforeAllHook: PluginFactory.AddHookFunc<Config>;
 
   /**
    * add a After hook
    */
-  addAfterHook: AddHookFunc;
+  addAfterHook: PluginFactory.AddHookFunc<Config>;
 
   /**
-   * add a AfterAll hook
+   * add a A hook
    */
-   addAfterAllHook: AddHookFunc;
+   addAfterAllHook: PluginFactory.AddHookFunc<Config>;
 
   /**
    * Will make all steps available in RestQA
@@ -71,7 +71,7 @@ export default class PluginFactory<Config> {
   private _apply(
     cucumberInstance: PluginFactory.Cucumber,
     config: Record<string, any>
-  ): PluginFactory;
+  ): PluginFactory<Config>;
 
   /**
    * Return the config
@@ -84,19 +84,19 @@ declare namespace PluginFactory {
     name: string;
   }
 
-  export type AddHookFunc = (...args: any) => PluginFactory;
+  export type AddHookFunc<C> = (...args: any) => PluginFactory<C>;
 
   export type Definition = string;
   export type HandlerFunc = (...args: any) => void;
   export type Description = string;
   export type Tags = string | string [];
 
-  export type AddStepFunction = (
+  export type AddStepFunction<C> = (
     stepDefinition: Definition, 
     handler: HandlerFunc,
     description: Description,
-    tags?: Tag
-  ) => PluginFactory;
+    tags?: Tags
+  ) => PluginFactory<C>;
 
   export interface Step {
     step: Definition;
@@ -108,4 +108,21 @@ declare namespace PluginFactory {
   export type States = Record<string, any>;
 
   export type Hook = (...args: any[]) => void;
+
+  export interface Cucumber {
+    After: typeof After;
+    AfterAll: typeof AfterAll;
+    AfterStep: typeof AfterStep;
+    Before: typeof Before;
+    BeforeAll: typeof BeforeAll;
+    BeforeStep?: typeof BeforeStep;
+    defineParameterType?: typeof defineParameterType;
+    defineStep?: typeof defineStep;
+    Given: typeof Given;
+    Then: typeof Then;
+    When: typeof When;
+    setDefaultTimeout?: typeof setDefaultTimeout;
+    setDefinitionFunctionWrapper?: typeof setDefinitionFunctionWrapper;
+    setWorldConstructor: typeof setWorldConstructor;
+  }
 }
