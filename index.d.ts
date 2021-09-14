@@ -65,6 +65,11 @@ export default class PluginFactory<Config = {}> {
    addAfterAllHook: PluginFactory.AddHookFunc<Config>;
 
   /**
+   * Return the config
+   */
+  getConfig(): Config
+
+  /**
    * Will make all steps available in RestQA
    * And return an Export Object
    */
@@ -74,9 +79,9 @@ export default class PluginFactory<Config = {}> {
   ): PluginFactory<Config>;
 
   /**
-   * Return the config
+   * Will return the private _state property
    */
-  getConfig(): Config
+  private _getState(): PluginFactory.State;
 }
 
 declare namespace PluginFactory {
@@ -105,7 +110,7 @@ declare namespace PluginFactory {
     tags?: Tags;
   }
 
-  export type States = Record<string, any>;
+  export type State = Record<string, any>;
 
   export type Hook = (...args: any[]) => void;
 
