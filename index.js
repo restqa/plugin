@@ -112,7 +112,7 @@ module.exports = class PluginFactory {
    *
    * FOR RESTQA CORE ONLY
    */
-  _apply(cucumber, config) {
+  _commit(cucumber, config) {
     if (
       cucumber === null ||
       typeof cucumber !== "object" ||
@@ -123,14 +123,14 @@ module.exports = class PluginFactory {
       );
     }
 
-    this._applySteps("Given", this._givenSteps, cucumber.Given);
-    this._applySteps("When", this._whenSteps, cucumber.When);
-    this._applySteps("Then", this._thenSteps, cucumber.Then);
+    this._commitSteps("Given", this._givenSteps, cucumber.Given);
+    this._commitSteps("When", this._whenSteps, cucumber.When);
+    this._commitSteps("Then", this._thenSteps, cucumber.Then);
 
-    this._applyHooks("After", this._afterHooks, cucumber.After);
-    this._applyHooks("AfterAll", this._afterAllHooks, cucumber.AfterAll);
-    this._applyHooks("Before", this._beforeHooks, cucumber.Before);
-    this._applyHooks("BeforeAll", this._beforeAllHooks, cucumber.BeforeAll);
+    this._commitHooks("After", this._afterHooks, cucumber.After);
+    this._commitHooks("AfterAll", this._afterAllHooks, cucumber.AfterAll);
+    this._commitHooks("Before", this._beforeHooks, cucumber.Before);
+    this._commitHooks("BeforeAll", this._beforeAllHooks, cucumber.BeforeAll);
 
     if (config) {
       if (typeof config === "object" && !Array.isArray(config)) {
@@ -170,7 +170,7 @@ module.exports = class PluginFactory {
     }
   }
 
-  _applySteps(name, steps, instanceFunction) {
+  _commitSteps(name, steps, instanceFunction) {
     if (steps.length) {
       if (typeof instanceFunction === "function") {
         steps.forEach((step) => instanceFunction.apply(this, step));
@@ -182,7 +182,7 @@ module.exports = class PluginFactory {
     }
   }
 
-  _applyHooks(name, hooks, instanceFunction) {
+  _commitHooks(name, hooks, instanceFunction) {
     if (hooks.length) {
       if (typeof instanceFunction === "function") {
         hooks.forEach((step) => instanceFunction.apply(this, step));

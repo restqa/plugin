@@ -71,9 +71,8 @@ export default class PluginFactory<Config = {}> {
 
   /**
    * Will make all steps available in RestQA
-   * And return an Export Object
    */
-  private _apply(
+  private _commit(
     cucumberInstance: PluginFactory.Cucumber,
     config: Record<string, any>
   ): PluginFactory<Config>;

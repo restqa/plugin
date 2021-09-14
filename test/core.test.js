@@ -5,33 +5,33 @@ describe("core usage", () => {
     it("should throw an error if no cucumber instance is provided, or if it's not an object", () => {
       const pf = new PluginFactory("plugin");
 
-      expect(() => pf._apply()).toThrow(
+      expect(() => pf._commit()).toThrow(
         new TypeError("Cucumber instance should be an object but got undefined")
       );
 
       const nullishCucumber = null;
-      expect(() => pf._apply(nullishCucumber)).toThrow(
+      expect(() => pf._commit(nullishCucumber)).toThrow(
         new TypeError(
           `Cucumber instance should be an object but got ${nullishCucumber}`
         )
       );
 
       const numberCucumber = 3;
-      expect(() => pf._apply(numberCucumber)).toThrow(
+      expect(() => pf._commit(numberCucumber)).toThrow(
         new TypeError(
           `Cucumber instance should be an object but got ${numberCucumber}`
         )
       );
 
       const arrayCucumber = [];
-      expect(() => pf._apply(arrayCucumber)).toThrow(
+      expect(() => pf._commit(arrayCucumber)).toThrow(
         new TypeError(
           `Cucumber instance should be an object but got ${arrayCucumber}`
         )
       );
 
       const stringCucumber = "str";
-      expect(() => pf._apply(stringCucumber)).toThrow(
+      expect(() => pf._commit(stringCucumber)).toThrow(
         new TypeError(
           `Cucumber instance should be an object but got ${stringCucumber}`
         )
@@ -64,7 +64,7 @@ describe("core usage", () => {
         setWorldConstructor
       };
 
-      pf._apply(cucumberInstance);
+      pf._commit(cucumberInstance);
 
       expect(Given).not.toHaveBeenCalled();
       expect(When).not.toHaveBeenCalled();
@@ -85,7 +85,7 @@ describe("core usage", () => {
       pf.addGivenStep("yo", () => {}, "yo step");
       pf.addGivenStep("yo", () => {}, "yo step");
 
-      pf._apply({Given});
+      pf._commit({Given});
 
       expect(Given).toHaveBeenCalledTimes(2);
     });
@@ -99,7 +99,7 @@ describe("core usage", () => {
       pf.addGivenStep("yo", () => {}, "yo step");
       pf.addGivenStep("yo", () => {}, "yo step");
 
-      expect(() => pf._apply({})).toThrow(expectedError);
+      expect(() => pf._commit({})).toThrow(expectedError);
     });
 
     it("should apply When from cucumber instance if there are When steps", () => {
@@ -109,7 +109,7 @@ describe("core usage", () => {
       pf.addWhenStep("yo", () => {}, "yo step");
       pf.addWhenStep("yo", () => {}, "yo step");
 
-      pf._apply({When});
+      pf._commit({When});
 
       expect(When).toHaveBeenCalledTimes(2);
     });
@@ -123,7 +123,7 @@ describe("core usage", () => {
       pf.addWhenStep("yo", () => {}, "yo step");
       pf.addWhenStep("yo", () => {}, "yo step");
 
-      expect(() => pf._apply({})).toThrow(expectedError);
+      expect(() => pf._commit({})).toThrow(expectedError);
     });
 
     it("should apply Then from cucumber instance if there are Then steps", () => {
@@ -133,7 +133,7 @@ describe("core usage", () => {
       pf.addThenStep("yo", () => {}, "yo step");
       pf.addThenStep("yo", () => {}, "yo step");
 
-      pf._apply({Then});
+      pf._commit({Then});
 
       expect(Then).toHaveBeenCalledTimes(2);
     });
@@ -147,7 +147,7 @@ describe("core usage", () => {
       pf.addThenStep("yo", () => {}, "yo step");
       pf.addThenStep("yo", () => {}, "yo step");
 
-      expect(() => pf._apply({})).toThrow(expectedError);
+      expect(() => pf._commit({})).toThrow(expectedError);
     });
   });
 
@@ -160,7 +160,7 @@ describe("core usage", () => {
       pf.addAfterHook(() => {});
       pf.addAfterHook(() => {});
 
-      pf._apply({After});
+      pf._commit({After});
 
       expect(After).toHaveBeenCalledTimes(3);
     });
@@ -173,7 +173,7 @@ describe("core usage", () => {
 
       pf.addAfterHook(() => {});
 
-      expect(() => pf._apply({})).toThrow(expectedError);
+      expect(() => pf._commit({})).toThrow(expectedError);
     });
 
     it("should apply AfterAll from cucumber instance if there are AfterAll hooks", () => {
@@ -184,7 +184,7 @@ describe("core usage", () => {
       pf.addAfterAllHook(() => {});
       pf.addAfterAllHook(() => {});
 
-      pf._apply({AfterAll});
+      pf._commit({AfterAll});
 
       expect(AfterAll).toHaveBeenCalledTimes(3);
     });
@@ -197,7 +197,7 @@ describe("core usage", () => {
 
       pf.addAfterAllHook(() => {});
 
-      expect(() => pf._apply({})).toThrow(expectedError);
+      expect(() => pf._commit({})).toThrow(expectedError);
     });
 
     it("should apply Before from cucumber instance if there are Before hooks", () => {
@@ -208,7 +208,7 @@ describe("core usage", () => {
       pf.addBeforeHook(() => {});
       pf.addBeforeHook(() => {});
 
-      pf._apply({Before});
+      pf._commit({Before});
 
       expect(Before).toHaveBeenCalledTimes(3);
     });
@@ -221,7 +221,7 @@ describe("core usage", () => {
 
       pf.addBeforeHook(() => {});
 
-      expect(() => pf._apply({})).toThrow(expectedError);
+      expect(() => pf._commit({})).toThrow(expectedError);
     });
 
     it("should apply BeforeAll from cucumber instance if there are BeforeAll hooks", () => {
@@ -232,7 +232,7 @@ describe("core usage", () => {
       pf.addBeforeAllHook(() => {});
       pf.addBeforeAllHook(() => {});
 
-      pf._apply({BeforeAll});
+      pf._commit({BeforeAll});
 
       expect(BeforeAll).toHaveBeenCalledTimes(3);
     });
@@ -245,16 +245,16 @@ describe("core usage", () => {
 
       pf.addBeforeAllHook(() => {});
 
-      expect(() => pf._apply({})).toThrow(expectedError);
+      expect(() => pf._commit({})).toThrow(expectedError);
     });
   });
 
   describe("set config", () => {
-    it("config could be set with _apply function", () => {
+    it("config could be set with _commit function", () => {
       const pf = new PluginFactory("plugin");
       const config = {foo: "bar"};
 
-      pf._apply({}, config);
+      pf._commit({}, config);
 
       expect(pf.getConfig()).toEqual(config);
     });
@@ -263,27 +263,27 @@ describe("core usage", () => {
       const pf = new PluginFactory("plugin");
 
       const stringConfig = "pool";
-      expect(() => pf._apply({}, stringConfig)).toThrow(
+      expect(() => pf._commit({}, stringConfig)).toThrow(
         `Config should be an object instead got ${typeof stringConfig}`
       );
 
       const arrayConfig = [];
-      expect(() => pf._apply({}, arrayConfig)).toThrow(
+      expect(() => pf._commit({}, arrayConfig)).toThrow(
         `Config should be an object instead got array`
       );
 
       const numberConfig = 3;
-      expect(() => pf._apply({}, numberConfig)).toThrow(
+      expect(() => pf._commit({}, numberConfig)).toThrow(
         `Config should be an object instead got ${typeof numberConfig}`
       );
     });
   });
 
   describe("outputs", () => {
-    it("_apply should return an PluginFactory instance", () => {
+    it("_commit should return an PluginFactory instance", () => {
       const pf = new PluginFactory("plugin");
 
-      const applyReturn = pf._apply({});
+      const applyReturn = pf._commit({});
 
       expect(applyReturn instanceof PluginFactory).toBeTruthy();
     });
@@ -300,14 +300,14 @@ describe("core usage", () => {
       expect(state).toEqual({[stateProperty]: stateValue});
     });
 
-    it("_getState should be called chained to _apply", () => {
+    it("_getState should be called chained to _commit", () => {
       const pf = new PluginFactory("plugin");
 
       const stateProperty = "foo";
       const stateValue = "bar";
       pf.addState(stateProperty, stateValue);
 
-      const state = pf._apply({})._getState();
+      const state = pf._commit({})._getState();
 
       expect(state).toEqual({[stateProperty]: stateValue});
     });

@@ -219,7 +219,7 @@ describe("PluginFactory", () => {
         "a yo step"
       );
 
-      pf._apply({Given: () => {}}, {foo: "bar"});
+      pf._commit({Given: () => {}}, {foo: "bar"});
 
       pf._givenSteps[0][1]();
     });
