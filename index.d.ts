@@ -17,7 +17,7 @@ import {
 
 // This represents the JavaScript class which would be available at runtime
 export default class PluginFactory<Config = {}> {
-  constructor(options: PluginFactory.Options);
+  constructor(name: PluginFactory.Name);
 
   /**
    * Plugin name, could be use as default tag
@@ -85,9 +85,7 @@ export default class PluginFactory<Config = {}> {
 }
 
 declare namespace PluginFactory {
-  export interface Options {
-    name: string;
-  }
+  export type Name = string;
 
   export type AddHookFunc<C> = (...args: any) => PluginFactory<C>;
 

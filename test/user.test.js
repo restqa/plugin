@@ -7,20 +7,20 @@ describe("PluginFactory", () => {
     });
 
     it("should throw if name is null or undefined", () => {
-      expect(() => new PluginFactory({name: undefined})).toThrow();
-      expect(() => new PluginFactory({name: null})).toThrow();
+      expect(() => new PluginFactory(undefined)).toThrow();
+      expect(() => new PluginFactory(null)).toThrow();
     });
 
     it("should throw if name is not a string", () => {
-      expect(() => new PluginFactory({name: 32})).toThrow();
-      expect(() => new PluginFactory({name: {}})).toThrow();
-      expect(() => new PluginFactory({name: []})).toThrow();
+      expect(() => new PluginFactory(32)).toThrow();
+      expect(() => new PluginFactory({})).toThrow();
+      expect(() => new PluginFactory([])).toThrow();
     });
 
     it("should expose plugin name on a property name", () => {
       const fakeName = "test";
 
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory(fakeName);
 
       expect(pf.name).toBe(fakeName);
     });
@@ -34,7 +34,7 @@ describe("PluginFactory", () => {
         console.log(`I'll eat ${burgerCount} burger!`);
       const description = "Eat burger step";
 
-      const pf = new PluginFactory({name: pluginName});
+      const pf = new PluginFactory(pluginName);
       pf.addGivenStep(stepDefinition, functionHandler, description);
 
       expect(pf._givenSteps).toEqual([
@@ -49,7 +49,7 @@ describe("PluginFactory", () => {
         console.log(`I'll eat ${burgerCount} burger!`);
       const description = "Eat burger step";
 
-      const pf = new PluginFactory({name: pluginName});
+      const pf = new PluginFactory(pluginName);
       pf.addWhenStep(stepDefinition, functionHandler, description);
 
       expect(pf._whenSteps).toEqual([
@@ -64,7 +64,7 @@ describe("PluginFactory", () => {
         console.log(`I'll eat ${burgerCount} burger!`);
       const description = "Eat burger step";
 
-      const pf = new PluginFactory({name: pluginName});
+      const pf = new PluginFactory(pluginName);
       pf.addThenStep(stepDefinition, functionHandler, description);
 
       expect(pf._thenSteps).toEqual([
@@ -75,7 +75,7 @@ describe("PluginFactory", () => {
 
   describe("adding hooks", () => {
     it("should expose an addBeforeHook method", () => {
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory("test");
       const validHook = () => {
         console.log("Hooked !");
       };
@@ -86,7 +86,7 @@ describe("PluginFactory", () => {
     });
 
     it("addBeforeHook should throw if the argument is not function", () => {
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory("test");
       const wrongTypedHook = 3;
 
       expect(() => pf.addBeforeHook(wrongTypedHook)).toThrow(
@@ -95,7 +95,7 @@ describe("PluginFactory", () => {
     });
 
     it("should expose an addAfterHook method", () => {
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory("test");
       const validHook = () => {
         console.log("Hooked !");
       };
@@ -106,7 +106,7 @@ describe("PluginFactory", () => {
     });
 
     it("addAfterHook should throw if the argument is not function", () => {
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory("test");
       const wrongTypedHook = 3;
 
       expect(() => pf.addAfterHook(wrongTypedHook)).toThrow(
@@ -115,7 +115,7 @@ describe("PluginFactory", () => {
     });
 
     it("should expose an addBeforeAllHook method", () => {
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory("test");
       const validHook = () => {
         console.log("Hooked !");
       };
@@ -126,7 +126,7 @@ describe("PluginFactory", () => {
     });
 
     it("addBeforeAll should throw if the argument is not function", () => {
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory("test");
       const wrongTypedHook = 3;
 
       expect(() => pf.addBeforeAllHook(wrongTypedHook)).toThrow(
@@ -135,7 +135,7 @@ describe("PluginFactory", () => {
     });
 
     it("should expose an addAfterAllHook method", () => {
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory("test");
       const validHook = () => {
         console.log("Hooked !");
       };
@@ -146,7 +146,7 @@ describe("PluginFactory", () => {
     });
 
     it("addAfterAllHook should throw if the argument is not function", () => {
-      const pf = new PluginFactory({name: "test"});
+      const pf = new PluginFactory("test");
       const wrongTypedHook = 3;
 
       expect(() => pf.addAfterAllHook(wrongTypedHook)).toThrow(
@@ -157,7 +157,7 @@ describe("PluginFactory", () => {
 
   describe("adding state", () => {
     it("should expose an addState method to add a state property", () => {
-      const pf = new PluginFactory({name: "state-plugin"});
+      const pf = new PluginFactory("state-plugin");
       const property = "restqa";
       const value = {foo: "bar"};
 
@@ -167,7 +167,7 @@ describe("PluginFactory", () => {
     });
 
     it("addState should throw if key is not a string", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
 
       const numberKey = 3;
       expect(() => pf.addState(numberKey)).toThrow(
@@ -196,7 +196,7 @@ describe("PluginFactory", () => {
     });
 
     it("addState should throw if key an empty string", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const emptyString = "";
 
       expect(() => pf.addState(emptyString)).toThrow(
@@ -207,7 +207,7 @@ describe("PluginFactory", () => {
 
   describe("get config", () => {
     it("should get config during custom step hook or state declaration", () => {
-      const pf = new PluginFactory({name: "my-plugin"});
+      const pf = new PluginFactory("my-plugin");
 
       pf.addGivenStep(
         "Add a yo",
@@ -227,7 +227,7 @@ describe("PluginFactory", () => {
 
   describe("global", () => {
     it("add hooks methods should be chained", () => {
-      const pf = new PluginFactory({name: "my-plugin"});
+      const pf = new PluginFactory("my-plugin");
 
       pf.addAfterHook(() => {}).addAfterAllHook(() => {});
 
@@ -241,7 +241,7 @@ describe("PluginFactory", () => {
     });
 
     it("add steps methods should be chained", () => {
-      const pf = new PluginFactory({name: "my-plugin"});
+      const pf = new PluginFactory("my-plugin");
       const fakeStep = ["yo", () => {}, "the description"];
 
       pf.addGivenStep(fakeStep).addGivenStep(fakeStep);
@@ -258,7 +258,7 @@ describe("PluginFactory", () => {
     });
 
     it("addState method should be chained", () => {
-      const pf = new PluginFactory({name: "my-plugin"});
+      const pf = new PluginFactory("my-plugin");
       const state = {
         foo: "bar",
         bim: {}

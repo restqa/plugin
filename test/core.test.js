@@ -3,7 +3,7 @@ const PluginFactory = require("../index");
 describe("core usage", () => {
   describe("validation & global", () => {
     it("should throw an error if no cucumber instance is provided, or if it's not an object", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
 
       expect(() => pf._apply()).toThrow(
         new TypeError("Cucumber instance should be an object but got undefined")
@@ -39,7 +39,7 @@ describe("core usage", () => {
     });
 
     it("should not apply cucumber instance if there are steps, hooks or state", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
 
       const After = jest.fn();
       const AfterAll = jest.fn();
@@ -79,7 +79,7 @@ describe("core usage", () => {
 
   describe("apply steps", () => {
     it("should apply Given from cucumber instance if there are Given steps", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const Given = jest.fn();
 
       pf.addGivenStep("yo", () => {}, "yo step");
@@ -91,7 +91,7 @@ describe("core usage", () => {
     });
 
     it("should throw an error if there Given steps but no Given instance", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const expectedError = new Error(
         "There are Given steps to bind, cucumber instance should contains Given function"
       );
@@ -103,7 +103,7 @@ describe("core usage", () => {
     });
 
     it("should apply When from cucumber instance if there are When steps", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const When = jest.fn();
 
       pf.addWhenStep("yo", () => {}, "yo step");
@@ -115,7 +115,7 @@ describe("core usage", () => {
     });
 
     it("should throw an error if there When steps but no When instance", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const expectedError = new Error(
         "There are When steps to bind, cucumber instance should contains When function"
       );
@@ -127,7 +127,7 @@ describe("core usage", () => {
     });
 
     it("should apply Then from cucumber instance if there are Then steps", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const Then = jest.fn();
 
       pf.addThenStep("yo", () => {}, "yo step");
@@ -139,7 +139,7 @@ describe("core usage", () => {
     });
 
     it("should throw an error if there Then steps but no Then instances", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const expectedError = new Error(
         "There are Then steps to bind, cucumber instance should contains Then function"
       );
@@ -153,7 +153,7 @@ describe("core usage", () => {
 
   describe("apply hooks", () => {
     it("should apply After from cucumber instance if there are After hooks", () => {
-      const pf = new PluginFactory({name: "plug"});
+      const pf = new PluginFactory("plugin");
       const After = jest.fn();
 
       pf.addAfterHook(() => {});
@@ -166,7 +166,7 @@ describe("core usage", () => {
     });
 
     it("should throw an error if there a After hooks but no After instance", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const expectedError = new Error(
         "There are After hooks to bind, cucumber instance should contains After function"
       );
@@ -177,7 +177,7 @@ describe("core usage", () => {
     });
 
     it("should apply AfterAll from cucumber instance if there are AfterAll hooks", () => {
-      const pf = new PluginFactory({name: "plug"});
+      const pf = new PluginFactory("plugin");
       const AfterAll = jest.fn();
 
       pf.addAfterAllHook(() => {});
@@ -190,7 +190,7 @@ describe("core usage", () => {
     });
 
     it("should throw an error if there a AfterAll hooks but no AfterAll instance", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const expectedError = new Error(
         "There are AfterAll hooks to bind, cucumber instance should contains AfterAll function"
       );
@@ -201,7 +201,7 @@ describe("core usage", () => {
     });
 
     it("should apply Before from cucumber instance if there are Before hooks", () => {
-      const pf = new PluginFactory({name: "plug"});
+      const pf = new PluginFactory("plugin");
       const Before = jest.fn();
 
       pf.addBeforeHook(() => {});
@@ -214,7 +214,7 @@ describe("core usage", () => {
     });
 
     it("should throw an error if there a Before hooks but no Before instance", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const expectedError = new Error(
         "There are Before hooks to bind, cucumber instance should contains Before function"
       );
@@ -225,7 +225,7 @@ describe("core usage", () => {
     });
 
     it("should apply BeforeAll from cucumber instance if there are BeforeAll hooks", () => {
-      const pf = new PluginFactory({name: "plug"});
+      const pf = new PluginFactory("plugin");
       const BeforeAll = jest.fn();
 
       pf.addBeforeAllHook(() => {});
@@ -238,7 +238,7 @@ describe("core usage", () => {
     });
 
     it("should throw an error if there a BeforeAll hooks but no BeforeAll instance", () => {
-      const pf = new PluginFactory({name: "plugin"});
+      const pf = new PluginFactory("plugin");
       const expectedError = new Error(
         "There are BeforeAll hooks to bind, cucumber instance should contains BeforeAll function"
       );
@@ -251,7 +251,7 @@ describe("core usage", () => {
 
   describe("set config", () => {
     it("config could be set with _apply function", () => {
-      const pf = new PluginFactory({name: "tony"});
+      const pf = new PluginFactory("plugin");
       const config = {foo: "bar"};
 
       pf._apply({}, config);
@@ -260,7 +260,7 @@ describe("core usage", () => {
     });
 
     it("should throw an error if config is not an object", () => {
-      const pf = new PluginFactory({name: "tony"});
+      const pf = new PluginFactory("plugin");
 
       const stringConfig = "pool";
       expect(() => pf._apply({}, stringConfig)).toThrow(
@@ -281,7 +281,7 @@ describe("core usage", () => {
 
   describe("outputs", () => {
     it("_apply should return an PluginFactory instance", () => {
-      const pf = new PluginFactory({name: "instance"});
+      const pf = new PluginFactory("plugin");
 
       const applyReturn = pf._apply({});
 
@@ -289,7 +289,7 @@ describe("core usage", () => {
     });
 
     it("_getState should return the current state", () => {
-      const pf = new PluginFactory({name: "instance"});
+      const pf = new PluginFactory("plugin");
 
       const stateProperty = "foo";
       const stateValue = "bar";
@@ -301,7 +301,7 @@ describe("core usage", () => {
     });
 
     it("_getState should be called chained to _apply", () => {
-      const pf = new PluginFactory({name: "instance"});
+      const pf = new PluginFactory("plugin");
 
       const stateProperty = "foo";
       const stateValue = "bar";
