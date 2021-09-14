@@ -50,7 +50,6 @@ describe("core usage", () => {
       const Given = jest.fn();
       const Then = jest.fn();
       const When = jest.fn();
-      const setWorldConstructor = jest.fn();
       const cucumberInstance = {
         After,
         AfterAll,
@@ -60,8 +59,7 @@ describe("core usage", () => {
         BeforeStep,
         Given,
         Then,
-        When,
-        setWorldConstructor
+        When
       };
 
       pf._commit(cucumberInstance);
