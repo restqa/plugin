@@ -169,7 +169,7 @@ module.exports = class PluginFactory {
       typeof secondArg !== "function"
     ) {
       throw new TypeError(
-        `${functionContextName} first parameter should be a function a string or an object but got ${typeof secondArg}`
+        `${functionContextName} second parameter should be a function but got ${typeof secondArg}`
       );
     }
   }
