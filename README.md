@@ -73,13 +73,23 @@ const pf = new PluginFactory("plugin-name");
 
 ### You can add state too:
 
+To access state you have to use the name of your plugin
+```js
+const state = this["plugin-name"];
+
+// or
+
+const state = this[pf.name];
+```
+
+Real world case:
 ```js
   pf
     .addState("user", { name: "tony", age: Infinity })
     // then use it elsewhere
     .addThenStep(
       "then user age should be {int}",
-      (expectedUserAge) => this.state.user.age === expectedUserAge
+      (expectedUserAge) => this[pf.name].user.age === expectedUserAge
     )
 ```
 
