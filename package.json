@@ -1,7 +1,7 @@
 {
   "name": "@restqa/plugin",
   "version": "0.0.1",
-  "description": "Helpers to create RestQA plugins",
+  "description": "An abstraction to create RestQA plugin easily",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -13,9 +13,17 @@
     "lint:fix": "eslint --fix index.js index.test.js",
     "check": "npm run format && npm run lint"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["restqa", "e2e testing", "plugin", "cucumber", "gherkin", "test automation"],
+  "homepage": "https://github.com/restqa/plugin",
+  "bugs": {
+    "url": "https://github.com/restqa/plugin/issues",
+    "email": "gorez.tony@gmail.com"
+  },
+  "author": {
+    "name": "Tony Gorez",
+    "email": "gorez.tony@gmail.com"
+  },
+  "license": "Apache-2.0",
   "devDependencies": {
     "@cucumber/cucumber": "^7.3.1",
     "eslint": "^7.32.0",
