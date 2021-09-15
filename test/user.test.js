@@ -85,13 +85,28 @@ describe("PluginFactory", () => {
       expect(pf._beforeHooks).toEqual([validHook]);
     });
 
-    it("addBeforeHook should throw if the argument is not function", () => {
+    it("addBeforeHook should callable with an option object and a hook function", () => {
       const pf = new PluginFactory("test");
-      const wrongTypedHook = 3;
+      const validOptions = {tags: "@foo"};
+      const validHook = () => {
+        console.log("Hooked !");
+      };
 
-      expect(() => pf.addBeforeHook(wrongTypedHook)).toThrow(
-        `addBeforeHook parameter should be a function but got ${typeof wrongTypedHook}`
-      );
+      pf.addBeforeHook(validOptions, validHook);
+
+      expect(pf._beforeHooks).toEqual([[validOptions, validHook]]);
+    });
+
+    it("addBeforeHook should callable with a string and a hook function", () => {
+      const pf = new PluginFactory("test");
+      const validTag = "@foo";
+      const validHook = () => {
+        console.log("Hooked !");
+      };
+
+      pf.addBeforeHook(validTag, validHook);
+
+      expect(pf._beforeHooks).toEqual([[validTag, validHook]]);
     });
 
     it("should expose an addAfterHook method", () => {
@@ -105,13 +120,28 @@ describe("PluginFactory", () => {
       expect(pf._afterHooks).toEqual([validHook]);
     });
 
-    it("addAfterHook should throw if the argument is not function", () => {
+    it("addAfterHook should callable with an option object and a hook function", () => {
       const pf = new PluginFactory("test");
-      const wrongTypedHook = 3;
+      const validOptions = {tags: "@foo"};
+      const validHook = () => {
+        console.log("Hooked !");
+      };
 
-      expect(() => pf.addAfterHook(wrongTypedHook)).toThrow(
-        `addAfterHook parameter should be a function but got ${typeof wrongTypedHook}`
-      );
+      pf.addAfterHook(validOptions, validHook);
+
+      expect(pf._afterHooks).toEqual([[validOptions, validHook]]);
+    });
+
+    it("addAfterHook should callable with a string and a hook function", () => {
+      const pf = new PluginFactory("test");
+      const validTag = "@foo";
+      const validHook = () => {
+        console.log("Hooked !");
+      };
+
+      pf.addAfterHook(validTag, validHook);
+
+      expect(pf._afterHooks).toEqual([[validTag, validHook]]);
     });
 
     it("should expose an addBeforeAllHook method", () => {
@@ -125,13 +155,28 @@ describe("PluginFactory", () => {
       expect(pf._beforeAllHooks).toEqual([validHook]);
     });
 
-    it("addBeforeAll should throw if the argument is not function", () => {
+    it("addBeforeAllHook should callable with an option object and a hook function", () => {
       const pf = new PluginFactory("test");
-      const wrongTypedHook = 3;
+      const validOptions = {tags: "@foo"};
+      const validHook = () => {
+        console.log("Hooked !");
+      };
 
-      expect(() => pf.addBeforeAllHook(wrongTypedHook)).toThrow(
-        `addBeforeAllHook parameter should be a function but got ${typeof wrongTypedHook}`
-      );
+      pf.addBeforeAllHook(validOptions, validHook);
+
+      expect(pf._beforeAllHooks).toEqual([[validOptions, validHook]]);
+    });
+
+    it("addBeforeAllHook should callable with a string and a hook function", () => {
+      const pf = new PluginFactory("test");
+      const validTag = "@foo";
+      const validHook = () => {
+        console.log("Hooked !");
+      };
+
+      pf.addBeforeAllHook(validTag, validHook);
+
+      expect(pf._beforeAllHooks).toEqual([[validTag, validHook]]);
     });
 
     it("should expose an addAfterAllHook method", () => {
@@ -145,13 +190,28 @@ describe("PluginFactory", () => {
       expect(pf._afterAllHooks).toEqual([validHook]);
     });
 
-    it("addAfterAllHook should throw if the argument is not function", () => {
+    it("addAfterAllHook should callable with an option object and a hook function", () => {
       const pf = new PluginFactory("test");
-      const wrongTypedHook = 3;
+      const validOptions = {tags: "@foo"};
+      const validHook = () => {
+        console.log("Hooked !");
+      };
 
-      expect(() => pf.addAfterAllHook(wrongTypedHook)).toThrow(
-        `addAfterAllHook parameter should be a function but got ${typeof wrongTypedHook}`
-      );
+      pf.addAfterAllHook(validOptions, validHook);
+
+      expect(pf._afterAllHooks).toEqual([[validOptions, validHook]]);
+    });
+
+    it("addAfterAllHook should callable with a string and a hook function", () => {
+      const pf = new PluginFactory("test");
+      const validTag = "@foo";
+      const validHook = () => {
+        console.log("Hooked !");
+      };
+
+      pf.addAfterAllHook(validTag, validHook);
+
+      expect(pf._afterAllHooks).toEqual([[validTag, validHook]]);
     });
   });
 

@@ -58,34 +58,34 @@ module.exports = class PluginFactory {
     return this;
   }
 
-  addBeforeHook(hookFunction) {
-    this._checkHookFunction(hookFunction, "addBeforeHook");
+  addBeforeHook(...args) {
+    this._checkHookArguments(args, "addBeforeHook");
 
-    this._beforeHooks.push(hookFunction);
-
-    return this;
-  }
-
-  addAfterHook(hookFunction) {
-    this._checkHookFunction(hookFunction, "addAfterHook");
-
-    this._afterHooks.push(hookFunction);
+    this._addHook(args, this._beforeHooks);
 
     return this;
   }
 
-  addBeforeAllHook(hookFunction) {
-    this._checkHookFunction(hookFunction, "addBeforeAllHook");
+  addAfterHook(...args) {
+    this._checkHookArguments(args, "addAfterHook");
 
-    this._beforeAllHooks.push(hookFunction);
+    this._addHook(args, this._afterHooks);
 
     return this;
   }
 
-  addAfterAllHook(hookFunction) {
-    this._checkHookFunction(hookFunction, "addAfterAllHook");
+  addBeforeAllHook(...args) {
+    this._checkHookArguments(args, "addBeforeAllHook");
 
-    this._afterAllHooks.push(hookFunction);
+    this._addHook(args, this._beforeAllHooks);
+
+    return this;
+  }
+
+  addAfterAllHook(...args) {
+    this._checkHookArguments(args, "addAfterAllHook");
+
+    this._addHook(args, this._afterAllHooks);
 
     return this;
   }
@@ -154,11 +154,32 @@ module.exports = class PluginFactory {
   /**
    * UTILS
    */
-  _checkHookFunction(hookFunction, functionContextName = "hook") {
-    if (typeof hookFunction !== "function") {
+  _checkHookArguments(args, functionContextName = "hook") {
+    const [firstArg, secondArg] = args;
+    if (
+      typeof firstArg !== "function" &&
+      typeof firstArg !== "string" &&
+      !firstArg.tags
+    ) {
       throw new TypeError(
-        `${functionContextName} parameter should be a function but got ${typeof hookFunction}`
+        `${functionContextName} first parameter should be a function a string or an object but got ${typeof firstArg}`
       );
+    } else if (
+      typeof firstArg !== "function" &&
+      typeof secondArg !== "function"
+    ) {
+      throw new TypeError(
+        `${functionContextName} first parameter should be a function a string or an object but got ${typeof secondArg}`
+      );
+    }
+  }
+
+  _addHook(args, storage) {
+    if (args.length > 1) {
+      storage.push(args);
+    } else {
+      const handler = args[0];
+      storage.push(handler);
     }
   }
 

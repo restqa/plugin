@@ -86,8 +86,6 @@ export default class PluginFactory<Config = {}> {
 declare namespace PluginFactory {
   export type Name = string;
 
-  export type AddHookFunc<C> = (...args: any) => PluginFactory<C>;
-
   export type Definition = string;
   export type HandlerFunc = (...args: any) => void;
   export type Description = string;
@@ -99,6 +97,11 @@ declare namespace PluginFactory {
     description: Description,
     tags?: Tags
   ) => PluginFactory<C>;
+
+  export type AddHookFunc<C> = 
+    | ((options: { tags: string }, fn: HandlerFunc) => PluginFactory<C>)
+    | ((tags: string, fn: HandlerFunc) => PluginFactory<C>)
+    | ((fn: HandlerFunc) => PluginFactory<C>);
 
   export interface Step {
     step: Definition;
