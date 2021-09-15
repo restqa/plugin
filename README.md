@@ -75,6 +75,8 @@ const pf = new PluginFactory("plugin-name");
 
 To access state you have to use the name of your plugin
 ```js
+// in function handler for steps or hooks
+
 const state = this["plugin-name"];
 
 // or
