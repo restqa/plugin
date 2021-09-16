@@ -7,10 +7,10 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "format": "prettier --check index.js index.test.js",
-    "format:fix": "prettier --write index.js index.test.js",
-    "lint": "eslint index.js index.test.js",
-    "lint:fix": "eslint --fix index.js index.test.js",
+    "format": "prettier --check index.js test",
+    "format:fix": "prettier --write index.js test",
+    "lint": "eslint index.js test",
+    "lint:fix": "eslint --fix index.js test",
     "check": "npm run format && npm run lint"
   },
   "keywords": ["restqa", "e2e testing", "plugin", "cucumber", "gherkin", "test automation"],
