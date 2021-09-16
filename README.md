@@ -23,7 +23,7 @@ $ yarn add @restqa/plugin
 ### Create an instance,
 
 ```js
-const pf = require("@restqa/plugin");
+const PluginFactory = require("@restqa/plugin");
 
 const pf = new PluginFactory("plugin-name");
 ```
