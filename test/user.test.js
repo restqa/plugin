@@ -82,7 +82,7 @@ describe("PluginFactory", () => {
 
       pf.addBeforeHook(validHook);
 
-      expect(pf._beforeHooks).toEqual([validHook]);
+      expect(pf._beforeHooks).toEqual([[validHook]]);
     });
 
     it("addBeforeHook should callable with an option object and a hook function", () => {
@@ -117,7 +117,7 @@ describe("PluginFactory", () => {
 
       pf.addAfterHook(validHook);
 
-      expect(pf._afterHooks).toEqual([validHook]);
+      expect(pf._afterHooks).toEqual([[validHook]]);
     });
 
     it("addAfterHook should callable with an option object and a hook function", () => {
@@ -152,7 +152,7 @@ describe("PluginFactory", () => {
 
       pf.addBeforeAllHook(validHook);
 
-      expect(pf._beforeAllHooks).toEqual([validHook]);
+      expect(pf._beforeAllHooks).toEqual([[validHook]]);
     });
 
     it("addBeforeAllHook should callable with an option object and a hook function", () => {
@@ -187,7 +187,7 @@ describe("PluginFactory", () => {
 
       pf.addAfterAllHook(validHook);
 
-      expect(pf._afterAllHooks).toEqual([validHook]);
+      expect(pf._afterAllHooks).toEqual([[validHook]]);
     });
 
     it("addAfterAllHook should callable with an option object and a hook function", () => {
