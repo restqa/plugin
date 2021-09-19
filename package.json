@@ -7,6 +7,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watchAll",
+    "test:e2e": "node test/e2e/test-runner.js",
     "format": "prettier --check index.js test",
     "format:fix": "prettier --write index.js test",
     "lint": "eslint index.js test",

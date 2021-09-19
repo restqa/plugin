@@ -61,7 +61,7 @@ module.exports = class PluginFactory {
   addBeforeHook(...args) {
     this._checkHookArguments(args, "addBeforeHook");
 
-    this._addHook(args, this._beforeHooks);
+    this._beforeHooks.push(args);
 
     return this;
   }
@@ -69,7 +69,7 @@ module.exports = class PluginFactory {
   addAfterHook(...args) {
     this._checkHookArguments(args, "addAfterHook");
 
-    this._addHook(args, this._afterHooks);
+    this._afterHooks.push(args);
 
     return this;
   }
@@ -77,7 +77,7 @@ module.exports = class PluginFactory {
   addBeforeAllHook(...args) {
     this._checkHookArguments(args, "addBeforeAllHook");
 
-    this._addHook(args, this._beforeAllHooks);
+    this._beforeAllHooks.push(args);
 
     return this;
   }
@@ -85,7 +85,7 @@ module.exports = class PluginFactory {
   addAfterAllHook(...args) {
     this._checkHookArguments(args, "addAfterAllHook");
 
-    this._addHook(args, this._afterAllHooks);
+    this._afterAllHooks.push(args);
 
     return this;
   }
@@ -174,15 +174,6 @@ module.exports = class PluginFactory {
     }
   }
 
-  _addHook(args, storage) {
-    if (args.length > 1) {
-      storage.push(args);
-    } else {
-      const handler = args[0];
-      storage.push(handler);
-    }
-  }
-
   _formatTagsAndAddName(tags) {
     if (tags !== undefined) {
       return Array.isArray(tags) ? [this.name, ...tags] : [this.name, tags];
@@ -194,7 +185,9 @@ module.exports = class PluginFactory {
   _commitSteps(name, steps, instanceFunction) {
     if (steps.length) {
       if (typeof instanceFunction === "function") {
-        steps.forEach((step) => instanceFunction.apply(this, step));
+        steps.forEach((step) => {
+          instanceFunction.apply(this, step);
+        });
       } else {
         throw new Error(
           `There are ${name} steps to bind, cucumber instance should contains ${name} function`
