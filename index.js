@@ -75,7 +75,7 @@ module.exports = class PluginFactory {
   }
 
   addBeforeAllHook(...args) {
-    this._checkHookArguments(args, "addBeforeAllHook");
+    this._checkRestrictedHookArguments(args, "addBeforeAllHook");
 
     this._beforeAllHooks.push(args);
 
@@ -83,7 +83,7 @@ module.exports = class PluginFactory {
   }
 
   addAfterAllHook(...args) {
-    this._checkHookArguments(args, "addAfterAllHook");
+    this._checkRestrictedHookArguments(args, "addAfterAllHook");
 
     this._afterAllHooks.push(args);
 
@@ -162,7 +162,7 @@ module.exports = class PluginFactory {
       !firstArg.tags
     ) {
       throw new TypeError(
-        `${functionContextName} first parameter should be a function a string or an object but got ${typeof firstArg}`
+        `${functionContextName} first parameter should be a function a string or an object with a tags property but got ${typeof firstArg}`
       );
     } else if (
       typeof firstArg !== "function" &&
@@ -170,6 +170,15 @@ module.exports = class PluginFactory {
     ) {
       throw new TypeError(
         `${functionContextName} second parameter should be a function but got ${typeof secondArg}`
+      );
+    }
+  }
+
+  _checkRestrictedHookArguments(args, functionContextName = "hook") {
+    const [firstArg] = args;
+    if (typeof firstArg !== "function") {
+      throw new TypeError(
+        `${functionContextName} first parameter should be a function but got ${typeof firstArg}`
       );
     }
   }

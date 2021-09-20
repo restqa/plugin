@@ -38,12 +38,10 @@ const pf = new PF("full-test")
   .addBeforeHook("tags", beforeHook)
   .addBeforeHook({tags: "tags"}, beforeHook)
   .addBeforeAllHook(beforeAllHook)
-  .addBeforeAllHook({tags: "tags"}, beforeAllHook)
   .addAfterHook(afterHook)
   .addAfterHook("tags", afterHook)
   .addAfterHook({tags: "tags"}, afterHook)
   .addAfterAllHook(afterAllHook)
-  .addAfterAllHook({tags: "tags"}, afterAllHook)
   // add state
   .addState("property", {foo: "bar"});
 

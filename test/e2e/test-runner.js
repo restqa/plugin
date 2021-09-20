@@ -16,6 +16,7 @@ function successHandler({success}) {
 function errorHandler(err) {
   console.log("E2E tests failed!");
   console.log(err);
+  process.exit(1);
 }
 
 function runTest() {
