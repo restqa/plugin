@@ -143,4 +143,12 @@ Then, in the restqa.yml:
     locale: 'fr'
 ```
 
-## API (todo)
+## API
+
+Check the full [API documentation](./API.md).
+
+## Types
+
+Check the `index.d.ts` file
+
+

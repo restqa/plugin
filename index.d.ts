@@ -52,7 +52,7 @@ export default class PluginFactory<Config = {}> {
   /**
    * add a BeforeAll hook
    */
-   addBeforeAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
+  addBeforeAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
 
   /**
    * add a After hook
@@ -62,7 +62,7 @@ export default class PluginFactory<Config = {}> {
   /**
    * add a A hook
    */
-   addAfterAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
+  addAfterAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
 
   /**
    * Return the config
