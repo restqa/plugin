@@ -167,16 +167,19 @@ describe("PluginFactory", () => {
       expect(pf._beforeAllHooks).toEqual([[validOptions, validHook]]);
     });
 
-    it("addBeforeAllHook should callable with a string and a hook function", () => {
+    it("addBeforeAllHook should not be callable with a string and a hook function", () => {
       const pf = new PluginFactory("test");
-      const validTag = "@foo";
+      const notValidTag = "@foo";
       const validHook = () => {
         console.log("Hooked !");
       };
+      const expectedError = new TypeError(
+        `addBeforeAllHook first parameter should be a function or an object with a tags property but got ${typeof notValidTag}`
+      );
 
-      pf.addBeforeAllHook(validTag, validHook);
-
-      expect(pf._beforeAllHooks).toEqual([[validTag, validHook]]);
+      expect(() => pf.addBeforeAllHook(notValidTag, validHook)).toThrow(
+        expectedError
+      );
     });
 
     it("should expose an addAfterAllHook method", () => {
@@ -202,16 +205,19 @@ describe("PluginFactory", () => {
       expect(pf._afterAllHooks).toEqual([[validOptions, validHook]]);
     });
 
-    it("addAfterAllHook should callable with a string and a hook function", () => {
+    it("addAfterAllHook should not be callable with a string and a hook function", () => {
       const pf = new PluginFactory("test");
-      const validTag = "@foo";
+      const notValidTag = "@foo";
       const validHook = () => {
         console.log("Hooked !");
       };
+      const expectedError = new TypeError(
+        `addAfterAllHook first parameter should be a function or an object with a tags property but got ${typeof notValidTag}`
+      );
 
-      pf.addAfterAllHook(validTag, validHook);
-
-      expect(pf._afterAllHooks).toEqual([[validTag, validHook]]);
+      expect(() => pf.addAfterAllHook(notValidTag, validHook)).toThrow(
+        expectedError
+      );
     });
   });
 
