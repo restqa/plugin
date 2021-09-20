@@ -5,7 +5,12 @@ const PF = require("../../index");
  * AS A USER
  */
 const pf = new PF("full-test")
-  // add steps
+  /**
+   *
+   * STEPS
+   *
+   */
+  // Given step
   .addGivenStep(
     "Log this {string}",
     function logger(stringToLog) {
@@ -15,9 +20,16 @@ const pf = new PF("full-test")
     "Log something",
     ["log"]
   )
+  // When step
   .addWhenStep("I put my hands up", function handsUp() {})
+  // Then step
   .addThenStep("I am happy", function happy() {})
-  // add hooks
+  /**
+   *
+   * HOOKS
+   *
+   */
+  // Before Hook
   .addBeforeHook(function beforeHook() {
     console.log("before hook");
   })
@@ -33,6 +45,7 @@ const pf = new PF("full-test")
       console.log("before hook with object tag");
     }
   )
+  // After Hook
   .addAfterHook(function afterHook() {
     console.log("after hook");
   })
@@ -45,13 +58,19 @@ const pf = new PF("full-test")
       console.log("after hook with object tag");
     }
   )
+  // BeforeAll Hook
   .addBeforeAllHook(function beforeAllHook() {
     console.log("before all hook");
   })
+  // AfterAll Hook
   .addAfterAllHook(function afterAllHook() {
     console.log("after all hook");
   })
-  // add state
+  /**
+   *
+   * STATE (World)
+   *
+   */
   .addState("property", {foo: "bar"});
 
 /**
