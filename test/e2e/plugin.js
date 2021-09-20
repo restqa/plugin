@@ -14,16 +14,20 @@ const pf = new PF("full-test")
   .addGivenStep(
     "Log this {string}",
     function logger(stringToLog) {
-      console.log(stringToLog);
-      console.log(`by ${pf.getConfig()}`);
+      console.log(`Log: ${stringToLog}`);
     },
     "Log something",
     ["log"]
   )
   // When step
-  .addWhenStep("I put my hands up", function handsUp() {})
+  .addWhenStep("I put my hands up", function handsUp() {
+    // use config
+    console.log(`${pf.getConfig().name} puts hands up !`);
+  })
   // Then step
-  .addThenStep("I am happy", function happy() {})
+  .addThenStep("Print state", function happy() {
+    console.log("state is", this[pf.name]);
+  })
   /**
    *
    * HOOKS
@@ -78,13 +82,17 @@ const pf = new PF("full-test")
  */
 function bootstrap() {
   const cucumberInstance = require("@cucumber/cucumber");
-  const config = {name: "tony"};
+  const config = {name: "Tony"};
   pf._commit(cucumberInstance, config);
 
   // TODO: mimic the bootstrap and test it
-  class RestQA extends cucumberInstance.World {}
+  class State {
+    constructor() {
+      this[pf.name] = pf._getState();
+    }
+  }
 
-  cucumberInstance.setWorldConstructor(RestQA);
+  cucumberInstance.setWorldConstructor(State);
 }
 
 module.exports = bootstrap();
