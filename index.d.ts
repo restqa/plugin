@@ -103,9 +103,7 @@ declare namespace PluginFactory {
     | ((tags: string, fn: HandlerFunc) => PluginFactory<C>)
     | ((fn: HandlerFunc) => PluginFactory<C>);
 
-  export type RestrictedAddHookFunc<C> = 
-    | ((options: { tags: string }, fn: HandlerFunc) => PluginFactory<C>)
-    | ((fn: HandlerFunc) => PluginFactory<C>);
+  export type RestrictedAddHookFunc<C> = ((fn: HandlerFunc) => PluginFactory<C>);
 
   export interface Step {
     step: Definition;
