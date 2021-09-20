@@ -1,22 +1,6 @@
 // Import plugin factory
 const PF = require("../../index");
 
-function beforeHook() {
-  console.log("before hook");
-}
-
-function beforeAllHook() {
-  console.log("before all hook");
-}
-
-function afterHook() {
-  console.log("after hook");
-}
-
-function afterAllHook() {
-  console.log("after all hook");
-}
-
 /**
  * AS A USER
  */
@@ -34,14 +18,39 @@ const pf = new PF("full-test")
   .addWhenStep("I put my hands up", function handsUp() {})
   .addThenStep("I am happy", function happy() {})
   // add hooks
-  .addBeforeHook(beforeHook)
-  .addBeforeHook("tags", beforeHook)
-  .addBeforeHook({tags: "tags"}, beforeHook)
-  .addBeforeAllHook(beforeAllHook)
-  .addAfterHook(afterHook)
-  .addAfterHook("tags", afterHook)
-  .addAfterHook({tags: "tags"}, afterHook)
-  .addAfterAllHook(afterAllHook)
+  .addBeforeHook(function beforeHook() {
+    console.log("before hook");
+  })
+  .addBeforeHook(
+    "@beforeHookWithStringTag",
+    function beforeHookWithStringTag() {
+      console.log("before hook with string tag");
+    }
+  )
+  .addBeforeHook(
+    {tags: "@beforeHookWithObjectTag"},
+    function beforeHookWithObjectTag() {
+      console.log("before hook with object tag");
+    }
+  )
+  .addAfterHook(function afterHook() {
+    console.log("after hook");
+  })
+  .addAfterHook("@afterHookWithStringTag", function afterHookWithStringTag() {
+    console.log("after hook with string tag");
+  })
+  .addAfterHook(
+    {tags: "@afterHookWithObjectTag"},
+    function afterHookWithObjectTag() {
+      console.log("after hook with object tag");
+    }
+  )
+  .addBeforeAllHook(function beforeAllHook() {
+    console.log("before all hook");
+  })
+  .addAfterAllHook(function afterAllHook() {
+    console.log("after all hook");
+  })
   // add state
   .addState("property", {foo: "bar"});
 
