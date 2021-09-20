@@ -80,8 +80,6 @@ Interface is a bit different for `addBeforeAllHook` and `addAfterAllHook`:
 
   pf
     .addBeforeAllHook(beforeAllHook)
-    // Passing a string as first argument is not valid
-    .addBeforeAllHook({ tags: "@foo" }, beforeAllHook)
     // Similar api for the following method
     .addAfterAllHook(...)
 ```
