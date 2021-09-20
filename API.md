@@ -2,9 +2,11 @@
 
 If you're familiar with TypeScript you could check the `index.d.ts`.
 
+> 💡 Note: If you're not familiar with step definition, hooks and state (world), you should take a look into the [Cucumber documentation](https://cucumber.io/docs/cucumber/step-definitions/).
+
 Where `const pf = new PluginFactory("your-plugin-name")`;
 
-## pf.name(): string
+## pf.name: string
 
 Return the plugin name.
 
@@ -12,7 +14,7 @@ Return the plugin name.
 
 Add a state property to the current state. You can consume it in your handlers using this API:
 ```js
-cons state = this[pf.name];
+cons state = this.state.key;
 ```
 
 ## pf.getConfig(): Config
