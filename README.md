@@ -65,10 +65,25 @@ const pf = new PluginFactory("plugin-name");
 
   pf
     .addBeforeHook(beforeHook)
-    // Similar api for the following methods
-    .addBeforeAllHook(...)
+    .addBeforeHook("@foo", beforeHook)
+    .addBeforeHook({ tags: "@foo" }, beforeHook)
+    // Similar api for the following method
     .addAfterHook(...)
-    .addAfterAllHook(...);
+```
+
+Interface is a bit different for `addBeforeAllHook` and `addAfterAllHook`:
+
+```js
+  const beforeAllHook = () => {
+    console.log("Before all hook");
+  }
+
+  pf
+    .addBeforeAllHook(beforeAllHook)
+    // Passing a string as first argument is not valid
+    .addBeforeAllHook({ tags: "@foo" }, beforeAllHook)
+    // Similar api for the following method
+    .addAfterAllHook(...)
 ```
 
 ### You can add state too:
