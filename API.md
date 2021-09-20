@@ -25,6 +25,8 @@ Return the config of your plugin.
 
 Add a Given step.
 
+> 💡 Note: all handler functions **SHOULD BE** function expressions and **NOT** arrow functions (aiming to access to this).
+
 ## pf.addWhenStep(stepDefinition: string, handler: (...args: any[]), description: string, tags?: string[]): PluginFactory
 
 Add a When step.
