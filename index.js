@@ -175,17 +175,10 @@ module.exports = class PluginFactory {
   }
 
   _checkRestrictedHookArguments(args, functionContextName = "hook") {
-    const [firstArg, secondArg] = args;
-    if (typeof firstArg !== "function" && !firstArg.tags) {
+    const [firstArg] = args;
+    if (typeof firstArg !== "function") {
       throw new TypeError(
-        `${functionContextName} first parameter should be a function or an object with a tags property but got ${typeof firstArg}`
-      );
-    } else if (
-      typeof firstArg !== "function" &&
-      typeof secondArg !== "function"
-    ) {
-      throw new TypeError(
-        `${functionContextName} second parameter should be a function but got ${typeof secondArg}`
+        `${functionContextName} first parameter should be a function but got ${typeof firstArg}`
       );
     }
   }
