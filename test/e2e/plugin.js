@@ -85,7 +85,6 @@ function bootstrap() {
   const config = {name: "Tony"};
   pf._commit(cucumberInstance, config);
 
-  // TODO: mimic the bootstrap and test it
   class State {
     constructor() {
       this[pf.name] = pf._getState();
