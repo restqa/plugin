@@ -26,7 +26,7 @@ const pf = new PF("full-test")
   })
   // Then step
   .addThenStep("Print state", function happy() {
-    console.log("state is", this[pf.name]);
+    console.log("state is", this.state);
   })
   /**
    *
@@ -79,6 +79,9 @@ const pf = new PF("full-test")
 
 /**
  * AS A CORE CONTRIBUTOR
+ *
+ * This little function try to mimic
+ * the RestQA bootstrap
  */
 function bootstrap() {
   const cucumberInstance = require("@cucumber/cucumber");
@@ -87,7 +90,7 @@ function bootstrap() {
 
   class State {
     constructor() {
-      this[pf.name] = pf._getState();
+      this.state = pf._getState();
     }
   }
 
