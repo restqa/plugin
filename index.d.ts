@@ -52,7 +52,7 @@ export default class PluginFactory<Config = {}> {
   /**
    * add a BeforeAll hook
    */
-  addBeforeAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
+   addBeforeAllHook: PluginFactory.AddHookFunc<Config>;
 
   /**
    * add a After hook
@@ -62,7 +62,7 @@ export default class PluginFactory<Config = {}> {
   /**
    * add a A hook
    */
-  addAfterAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
+   addAfterAllHook: PluginFactory.AddHookFunc<Config>;
 
   /**
    * Return the config
@@ -102,8 +102,6 @@ declare namespace PluginFactory {
     | ((options: { tags: string }, fn: HandlerFunc) => PluginFactory<C>)
     | ((tags: string, fn: HandlerFunc) => PluginFactory<C>)
     | ((fn: HandlerFunc) => PluginFactory<C>);
-
-  export type RestrictedAddHookFunc<C> = ((fn: HandlerFunc) => PluginFactory<C>);
 
   export interface Step {
     step: Definition;
