@@ -34,7 +34,7 @@ const pf = new PluginFactory("plugin-name");
   const db = require("../my-db");
 
   const stepDefinition = "Then the db should contains {int} users";
-  const handlerFunc = (expectedUserCount) => {
+  function handlerFunc(expectedUserCount) {
     const users = db.find({});
     const currentUserCount = users.length;
 
@@ -56,32 +56,42 @@ const pf = new PluginFactory("plugin-name");
 
 ```
 
+> 💡 Note: all handler functions **SHOULD BE** function expressions and **NOT** arrow functions (aiming to access to this).
+
 ### Or add hooks:
 
 ```js
-  const beforeHook = () => {
+  function beforeHook() {
     console.log("Before hook");
   }
 
   pf
     .addBeforeHook(beforeHook)
-    // Similar api for the following methods
-    .addBeforeAllHook(...)
+    .addBeforeHook("@foo", beforeHook)
+    .addBeforeHook({ tags: "@foo" }, beforeHook)
+    // Similar api for the following method
     .addAfterHook(...)
-    .addAfterAllHook(...);
+```
+
+Interface is a bit different for `addBeforeAllHook` and `addAfterAllHook`:
+
+```js
+  function beforeAllHook() {
+    console.log("Before all hook");
+  }
+
+  pf
+    .addBeforeAllHook(beforeAllHook)
+    // Similar api for the following method
+    .addAfterAllHook(...)
 ```
 
 ### You can add state too:
 
 To access state you have to use the name of your plugin
 ```js
-// in function handler for steps or hooks
-
-const state = this["plugin-name"];
-
-// or
-
-const state = this[pf.name];
+// in function handlers:
+const state = this.state.key;
 ```
 
 Real world case:
@@ -91,7 +101,9 @@ Real world case:
     // then use it elsewhere
     .addThenStep(
       "then user age should be {int}",
-      (expectedUserAge) => this[pf.name].user.age === expectedUserAge
+      function(expectedUserAge) {
+        return this.state.user.age === expectedUserAge
+      }
     )
 ```
 
@@ -130,4 +142,12 @@ Then, in the restqa.yml:
     locale: 'fr'
 ```
 
-## API (todo)
+## API
+
+Check the full [API documentation](./API.md).
+
+## Types
+
+Check the `index.d.ts` file
+
+
