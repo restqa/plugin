@@ -104,10 +104,6 @@ module.exports = class PluginFactory {
     return this;
   }
 
-  getConfig() {
-    return this._config;
-  }
-
   /**
    *
    * FOR RESTQA CORE ONLY
@@ -149,6 +145,10 @@ module.exports = class PluginFactory {
 
   _getState() {
     return this._state;
+  }
+
+  _getConfig() {
+    return this._config;
   }
 
   /**

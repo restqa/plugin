@@ -65,11 +65,6 @@ export default class PluginFactory<Config = {}> {
   addAfterAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
 
   /**
-   * Return the config
-   */
-  getConfig(): Config
-
-  /**
    * Will make all steps available in RestQA
    */
   private _commit(

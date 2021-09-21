@@ -17,10 +17,6 @@ Add a state property to the current state. You can consume it in your handlers u
 cons state = this.state.key;
 ```
 
-## pf.getConfig(): Config
-
-Return the config of your plugin.
-
 ## pf.addGivenStep(stepDefinition: string, handler: (...args: any[]), description: string, tags?: string[]): PluginFactory
 
 Add a Given step.
@@ -58,3 +54,7 @@ Add a BeforeAll hook.
 ## pf.addAfterAllHook(handler: (...args: any[]): PluginFactory
 
 Add a AfterAll hook.
+
+## this.getConfig(pluginName: string): {[key: string]: any} - (only in handlers)
+
+Return the plugin config. (We use the plugin name to avoid collision in case of multiple plugins)
