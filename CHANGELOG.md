@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 2021-09-21
+
+### Added
+- Full API documentation
+- Improve hook validation
+- Nitpick on E2E tests
+
+### Fixed
+- Normalize config usage 
+- Use `this.state` in E2E tests
+
 ## [0.0.2] - 2021-09-19
 
 ### Added
