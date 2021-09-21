@@ -116,10 +116,12 @@ When you declare your plugin in RestQA you can add a config:
   config:
     foo: 'bar'
 ```
-Then, you can use it in your code:
+Then, you can use it in your hooks, or steps handlers:
 
 ```js
-  const config = pf.getConfig();
+  function handler() {
+    const config = this.getConfig(pf.name);
+  };
 ```
 
 ## Declare your plugin in RestQA

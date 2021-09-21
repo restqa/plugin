@@ -22,11 +22,14 @@ const pf = new PF("full-test")
   // When step
   .addWhenStep("I put my hands up", function handsUp() {
     // use config
-    console.log(`${pf.getConfig().name} puts hands up !`);
+    const config = this.getConfig(pf.name);
+    console.log(`${config.name} puts hands up !`);
   })
   // Then step
   .addThenStep("Print state", function happy() {
-    console.log("state is", this.state);
+    // use state
+    const state = this.state;
+    console.log("state is", state);
   })
   /**
    *
@@ -91,6 +94,11 @@ function bootstrap() {
   class State {
     constructor() {
       this.state = pf._getState();
+      this.config = {[pf.name]: pf._getConfig()};
+    }
+
+    getConfig(name) {
+      return this.config[name];
     }
   }
 

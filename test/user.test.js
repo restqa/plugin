@@ -257,26 +257,6 @@ describe("PluginFactory", () => {
     });
   });
 
-  describe("get config", () => {
-    it("should get config during custom step hook or state declaration", () => {
-      const pf = new PluginFactory("my-plugin");
-
-      pf.addGivenStep(
-        "Add a yo",
-        () => {
-          const config = pf.getConfig();
-
-          expect(config.foo).toEqual("bar");
-        },
-        "a yo step"
-      );
-
-      pf._commit({Given: () => {}}, {foo: "bar"});
-
-      pf._givenSteps[0][1]();
-    });
-  });
-
   describe("global", () => {
     it("add hooks methods should be chained", () => {
       const pf = new PluginFactory("my-plugin");
