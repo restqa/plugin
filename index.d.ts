@@ -52,7 +52,7 @@ export default class PluginFactory<Config = {}> {
   /**
    * add a BeforeAll hook
    */
-   addBeforeAllHook: PluginFactory.AddHookFunc<Config>;
+  addBeforeAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
 
   /**
    * add a After hook
@@ -62,12 +62,7 @@ export default class PluginFactory<Config = {}> {
   /**
    * add a A hook
    */
-   addAfterAllHook: PluginFactory.AddHookFunc<Config>;
-
-  /**
-   * Return the config
-   */
-  getConfig(): Config
+  addAfterAllHook: PluginFactory.RestrictedAddHookFunc<Config>;
 
   /**
    * Will make all steps available in RestQA
@@ -102,6 +97,8 @@ declare namespace PluginFactory {
     | ((options: { tags: string }, fn: HandlerFunc) => PluginFactory<C>)
     | ((tags: string, fn: HandlerFunc) => PluginFactory<C>)
     | ((fn: HandlerFunc) => PluginFactory<C>);
+
+  export type RestrictedAddHookFunc<C> = ((fn: HandlerFunc) => PluginFactory<C>);
 
   export interface Step {
     step: Definition;

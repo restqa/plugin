@@ -1,6 +1,6 @@
 {
   "name": "@restqa/plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An abstraction to create RestQA plugin easily",
   "main": "index.js",
   "types": "index.d.ts",

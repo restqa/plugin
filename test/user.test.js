@@ -155,28 +155,24 @@ describe("PluginFactory", () => {
       expect(pf._beforeAllHooks).toEqual([[validHook]]);
     });
 
-    it("addBeforeAllHook should callable with an option object and a hook function", () => {
+    it("addBeforeAllHook should not be callable with an option object and a hook function", () => {
       const pf = new PluginFactory("test");
-      const validOptions = {tags: "@foo"};
-      const validHook = () => {
-        console.log("Hooked !");
-      };
+      const notValidArg = {tags: "@foo"};
+      const expectedError = new TypeError(
+        `addBeforeAllHook first parameter should be a function but got ${typeof notValidArg}`
+      );
 
-      pf.addBeforeAllHook(validOptions, validHook);
-
-      expect(pf._beforeAllHooks).toEqual([[validOptions, validHook]]);
+      expect(() => pf.addBeforeAllHook(notValidArg)).toThrow(expectedError);
     });
 
-    it("addBeforeAllHook should callable with a string and a hook function", () => {
+    it("addBeforeAllHook should not be callable with a string and a hook function", () => {
       const pf = new PluginFactory("test");
-      const validTag = "@foo";
-      const validHook = () => {
-        console.log("Hooked !");
-      };
+      const notValidArg = "@foo";
+      const expectedError = new TypeError(
+        `addBeforeAllHook first parameter should be a function but got ${typeof notValidArg}`
+      );
 
-      pf.addBeforeAllHook(validTag, validHook);
-
-      expect(pf._beforeAllHooks).toEqual([[validTag, validHook]]);
+      expect(() => pf.addBeforeAllHook(notValidArg)).toThrow(expectedError);
     });
 
     it("should expose an addAfterAllHook method", () => {
@@ -190,28 +186,24 @@ describe("PluginFactory", () => {
       expect(pf._afterAllHooks).toEqual([[validHook]]);
     });
 
-    it("addAfterAllHook should callable with an option object and a hook function", () => {
+    it("addAfterAllHook should not be callable with an option object and a hook function", () => {
       const pf = new PluginFactory("test");
-      const validOptions = {tags: "@foo"};
-      const validHook = () => {
-        console.log("Hooked !");
-      };
+      const notValidArg = {tags: "@foo"};
+      const expectedError = new TypeError(
+        `addAfterAllHook first parameter should be a function but got ${typeof notValidArg}`
+      );
 
-      pf.addAfterAllHook(validOptions, validHook);
-
-      expect(pf._afterAllHooks).toEqual([[validOptions, validHook]]);
+      expect(() => pf.addAfterAllHook(notValidArg)).toThrow(expectedError);
     });
 
-    it("addAfterAllHook should callable with a string and a hook function", () => {
+    it("addAfterAllHook should not be callable with a string and a hook function", () => {
       const pf = new PluginFactory("test");
-      const validTag = "@foo";
-      const validHook = () => {
-        console.log("Hooked !");
-      };
+      const notValidArg = "@foo";
+      const expectedError = new TypeError(
+        `addAfterAllHook first parameter should be a function but got ${typeof notValidArg}`
+      );
 
-      pf.addAfterAllHook(validTag, validHook);
-
-      expect(pf._afterAllHooks).toEqual([[validTag, validHook]]);
+      expect(() => pf.addAfterAllHook(notValidArg)).toThrow(expectedError);
     });
   });
 
@@ -262,26 +254,6 @@ describe("PluginFactory", () => {
       expect(() => pf.addState(emptyString)).toThrow(
         "addState key parameter should not be an empty string"
       );
-    });
-  });
-
-  describe("get config", () => {
-    it("should get config during custom step hook or state declaration", () => {
-      const pf = new PluginFactory("my-plugin");
-
-      pf.addGivenStep(
-        "Add a yo",
-        () => {
-          const config = pf.getConfig();
-
-          expect(config.foo).toEqual("bar");
-        },
-        "a yo step"
-      );
-
-      pf._commit({Given: () => {}}, {foo: "bar"});
-
-      pf._givenSteps[0][1]();
     });
   });
 

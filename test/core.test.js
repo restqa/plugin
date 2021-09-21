@@ -254,7 +254,7 @@ describe("core usage", () => {
 
       pf._commit({}, config);
 
-      expect(pf.getConfig()).toEqual(config);
+      expect(pf._getConfig()).toEqual(config);
     });
 
     it("should throw an error if config is not an object", () => {

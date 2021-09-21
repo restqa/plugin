@@ -1,64 +1,108 @@
 // Import plugin factory
 const PF = require("../../index");
 
-function beforeHook() {
-  console.log("before hook");
-}
-
-function beforeAllHook() {
-  console.log("before all hook");
-}
-
-function afterHook() {
-  console.log("after hook");
-}
-
-function afterAllHook() {
-  console.log("after all hook");
-}
-
 /**
  * AS A USER
  */
 const pf = new PF("full-test")
-  // add steps
+  /**
+   *
+   * STEPS
+   *
+   */
+  // Given step
   .addGivenStep(
     "Log this {string}",
     function logger(stringToLog) {
-      console.log(stringToLog);
-      console.log(`by ${pf.getConfig()}`);
+      console.log(`Log: ${stringToLog}`);
     },
     "Log something",
     ["log"]
   )
-  .addWhenStep("I put my hands up", function handsUp() {})
-  .addThenStep("I am happy", function happy() {})
-  // add hooks
-  .addBeforeHook(beforeHook)
-  .addBeforeHook("tags", beforeHook)
-  .addBeforeHook({tags: "tags"}, beforeHook)
-  .addBeforeAllHook(beforeAllHook)
-  .addBeforeAllHook({tags: "tags"}, beforeAllHook)
-  .addAfterHook(afterHook)
-  .addAfterHook("tags", afterHook)
-  .addAfterHook({tags: "tags"}, afterHook)
-  .addAfterAllHook(afterAllHook)
-  .addAfterAllHook({tags: "tags"}, afterAllHook)
-  // add state
+  // When step
+  .addWhenStep("I put my hands up", function handsUp() {
+    // use config
+    const config = this.getConfig(pf.name);
+    console.log(`${config.name} puts hands up !`);
+  })
+  // Then step
+  .addThenStep("Print state", function happy() {
+    // use state
+    const state = this.state;
+    console.log("state is", state);
+  })
+  /**
+   *
+   * HOOKS
+   *
+   */
+  // Before Hook
+  .addBeforeHook(function beforeHook() {
+    console.log("before hook");
+  })
+  .addBeforeHook(
+    "@beforeHookWithStringTag",
+    function beforeHookWithStringTag() {
+      console.log("before hook with string tag");
+    }
+  )
+  .addBeforeHook(
+    {tags: "@beforeHookWithObjectTag"},
+    function beforeHookWithObjectTag() {
+      console.log("before hook with object tag");
+    }
+  )
+  // After Hook
+  .addAfterHook(function afterHook() {
+    console.log("after hook");
+  })
+  .addAfterHook("@afterHookWithStringTag", function afterHookWithStringTag() {
+    console.log("after hook with string tag");
+  })
+  .addAfterHook(
+    {tags: "@afterHookWithObjectTag"},
+    function afterHookWithObjectTag() {
+      console.log("after hook with object tag");
+    }
+  )
+  // BeforeAll Hook
+  .addBeforeAllHook(function beforeAllHook() {
+    console.log("before all hook");
+  })
+  // AfterAll Hook
+  .addAfterAllHook(function afterAllHook() {
+    console.log("after all hook");
+  })
+  /**
+   *
+   * STATE (World)
+   *
+   */
   .addState("property", {foo: "bar"});
 
 /**
  * AS A CORE CONTRIBUTOR
+ *
+ * This little function try to mimic
+ * the RestQA bootstrap
  */
 function bootstrap() {
   const cucumberInstance = require("@cucumber/cucumber");
-  const config = {name: "tony"};
+  const config = {name: "Tony"};
   pf._commit(cucumberInstance, config);
 
-  // TODO: mimic the bootstrap and test it
-  class RestQA extends cucumberInstance.World {}
+  class State {
+    constructor() {
+      this.state = pf._getState();
+      this.config = {[pf.name]: pf._getConfig()};
+    }
 
-  cucumberInstance.setWorldConstructor(RestQA);
+    getConfig(name) {
+      return this.config[name];
+    }
+  }
+
+  cucumberInstance.setWorldConstructor(State);
 }
 
 module.exports = bootstrap();
